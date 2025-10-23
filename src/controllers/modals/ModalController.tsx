@@ -243,7 +243,7 @@ class ModalControllerExtended extends ModalController<Modal> {
                         callback: () => this.openLink(href, true) as true,
                     });
                 } else {
-                    window.open(link.href, "_blank", "noreferrer");
+                    window.open(link.href, "_blank", "noopener,noreferrer");
                 }
             }
         }

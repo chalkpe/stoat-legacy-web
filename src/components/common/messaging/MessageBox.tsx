@@ -67,7 +67,6 @@ const Base = styled.div`
     display: flex;
     align-items: flex-start;
     background: var(--message-box);
-    padding-bottom: var(--safe-area-inset-bottom, 0px);
 
     textarea {
         font-size: var(--text-size);

@@ -46,7 +46,7 @@ jobs:
               id: meta
               uses: docker/metadata-action@v5
               with:
-                  images: chalkpe/stoat-legacy-web
+                  images: ghcr.io/chalkpe/stoat-legacy-web
               env:
                   DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
             - name: Login to Github Container Registry

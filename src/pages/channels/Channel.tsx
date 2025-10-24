@@ -5,7 +5,7 @@ import { reaction } from "mobx";
 import { observer } from "mobx-react-lite";
 import { Redirect, useParams } from "react-router-dom";
 import { Channel as ChannelI } from "revolt.js";
-import styled from "styled-components/macro";
+import styled, { css } from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
@@ -29,12 +29,17 @@ import ChannelHeader from "./ChannelHeader";
 import { MessageArea } from "./messaging/MessageArea";
 import VoiceHeader from "./voice/VoiceHeader";
 
-const ChannelMain = styled.div.attrs({ "data-component": "channel" })`
+const ChannelMain = styled.div.attrs({ "data-component": "channel" })<{ adjusted?: boolean }>`
     flex-grow: 1;
     display: flex;
     min-height: 0;
     overflow: hidden;
     flex-direction: row;
+    ${(props) =>
+        props.adjusted &&
+        css`
+            transform: translateX(0);
+        `}
 `;
 
 const ChannelContent = styled.div.attrs({
@@ -154,6 +159,12 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
         [],
     );
 
+    const [adjusted, setAdjusted] = useState(false);
+    useEffect(() => {
+        const timer = setInterval(() => setAdjusted((a) => !a), 2000);
+        return () => clearInterval(timer);
+    }, []);
+
     // Mark channel as read.
     useEffect(() => {
         setLastId(
@@ -230,7 +241,7 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
                 )
             }>
             <ChannelHeader channel={channel} />
-            <ChannelMain>
+            <ChannelMain adjusted={adjusted}>
                 <ErrorBoundary section="renderer">
                     <ChannelContent>
                         <VoiceHeader id={channel._id} />

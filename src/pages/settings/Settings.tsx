@@ -207,11 +207,11 @@ export default observer(() => {
                     icon: <Bot size={20} />,
                     title: <Text id="app.settings.pages.bots.title" />,
                 },
-                {
-                    id: "feedback",
-                    icon: <Megaphone size={20} />,
-                    title: <Text id="app.settings.pages.feedback.title" />,
-                },
+                // {
+                //     id: "feedback",
+                //     icon: <Megaphone size={20} />,
+                //     title: <Text id="app.settings.pages.feedback.title" />,
+                // },
             ]}
             children={
                 <Switch>
@@ -263,16 +263,16 @@ export default observer(() => {
             category="pages"
             custom={
                 <>
-                    <ButtonItem
+                    {/* <ButtonItem
                         compact
                         onClick={() =>
                             modalController.push({ type: "changelog" })
                         }>
                         <ListUl size={20} />
                         <Text id="app.special.modals.changelogs.title" />
-                    </ButtonItem>
+                    </ButtonItem> */}
                     <a
-                        href="https://github.com/revoltchat"
+                        href="https://github.com/chalkpe/stoat-legacy-web"
                         target="_blank"
                         rel="noreferrer">
                         <ButtonItem compact>
@@ -280,7 +280,7 @@ export default observer(() => {
                             <Text id="app.settings.pages.source_code" />
                         </ButtonItem>
                     </a>
-                    <a
+                    {/* <a
                         href="https://wiki.revolt.chat/notes/project/financial-support/"
                         target="_blank"
                         rel="noreferrer">
@@ -288,7 +288,7 @@ export default observer(() => {
                             <Coffee size={20} />
                             <Text id="app.settings.pages.donate.title" />
                         </ButtonItem>
-                    </a>
+                    </a> */}
                     <LineDivider compact />
                     <ButtonItem
                         onClick={clientController.logoutCurrent}

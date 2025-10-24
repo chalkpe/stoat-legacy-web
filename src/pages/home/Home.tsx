@@ -125,7 +125,7 @@ export default observer(() => {
                                     <Text id="app.home.group" />
                                 </CategoryButton>
                             </a>
-                            <Link to="/discover">
+                            {/* <Link to="/discover">
                                 <a>
                                     <CategoryButton
                                         action="chevron"
@@ -136,35 +136,35 @@ export default observer(() => {
                                         <Text id="app.home.discover" />
                                     </CategoryButton>
                                 </a>
-                            </Link>
+                            </Link> */}
 
                             {client.servers.get(
-                                "01F7ZSBSFHQ8TA81725KQCSDDP",
+                                "01K8A47MMEJ47BM9VVDXQ4PPKJ",
                             ) ? (
-                                <Link to="/server/01F7ZSBSFHQ8TA81725KQCSDDP">
+                                <Link to="/server/01K8A47MMEJ47BM9VVDXQ4PPKJ">
                                     <CategoryButton
                                         action="chevron"
                                         icon={<RightArrowCircle size={32} />}
                                         description={
                                             <Text id="app.home.goto-testers_desc" />
                                         }>
-                                        <Text id="app.home.goto-testers" />
+                                        공지 서버로 이동
                                     </CategoryButton>
                                 </Link>
                             ) : (
-                                <Link to="/invite/Testers">
+                                <Link to="/invite/tNDSmtXA">
                                     <CategoryButton
                                         action="chevron"
                                         icon={<Group size={32} />}
                                         description={
                                             <Text id="app.home.join-testers_desc" />
                                         }>
-                                        <Text id="app.home.join-testers" />
+                                        공지 서버 참가
                                     </CategoryButton>
                                 </Link>
                             )}
 
-                            <Link to="/settings/feedback">
+                            {/* <Link to="/settings/feedback">
                                 <CategoryButton
                                     action="chevron"
                                     icon={<Megaphone size={32} />}
@@ -186,7 +186,7 @@ export default observer(() => {
                                     icon={<Money size={32} />}>
                                     <Text id="app.home.donate" />
                                 </CategoryButton>
-                            </a>
+                            </a> */}
                             <Link to="/settings">
                                 <CategoryButton
                                     action="chevron"

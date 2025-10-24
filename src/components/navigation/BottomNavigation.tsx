@@ -114,7 +114,7 @@ export default observer(() => {
                         </IconButton>
                     </ConditionalLink>
                 </Button>*/}
-                <Button active={discoverActive}>
+                {/* <Button active={discoverActive}>
                     <IconButton>
                         <ConditionalLink
                             active={discoverActive}
@@ -122,7 +122,7 @@ export default observer(() => {
                             <Compass size={24} />
                         </ConditionalLink>
                     </IconButton>
-                </Button>
+                </Button> */}
                 <Button active={settingsActive}>
                     <IconButton>
                         <ConditionalLink active={settingsActive} to="/settings">

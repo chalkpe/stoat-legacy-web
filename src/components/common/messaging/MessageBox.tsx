@@ -577,7 +577,7 @@ export default observer(({ channel }: Props) => {
                 addFile={() =>
                     uploadState.type === "attached" &&
                     grabFiles(
-                        20_000_000,
+                        500_000_000,
                         (files) =>
                             setUploadState({
                                 type: "attached",
@@ -634,7 +634,7 @@ export default observer(({ channel }: Props) => {
                             behaviour="multi"
                             style="attachment"
                             fileType="attachments"
-                            maxFileSize={20_000_000}
+                            maxFileSize={500_000_000}
                             attached={uploadState.type !== "none"}
                             uploading={
                                 uploadState.type === "uploading" ||

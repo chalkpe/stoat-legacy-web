@@ -9,10 +9,13 @@ import { determineFileSize } from "../../../../lib/fileSize";
 
 import { CAN_UPLOAD_AT_ONCE, UploadState } from "../MessageBox";
 
+import { Checkbox } from "@revoltchat/ui";
+
 interface Props {
     state: UploadState;
     addFile: () => void;
     removeFile: (index: number) => void;
+    updateFileName: (index: number, name: string) => void;
 }
 
 const Container = styled.div`
@@ -137,10 +140,12 @@ function FileEntry({
     file,
     remove,
     index,
+    updateName,
 }: {
     file: File;
     remove?: () => void;
     index: number;
+    updateName: (name: string) => void;
 }) {
     if (!file.type.startsWith("image/"))
         return (
@@ -179,13 +184,24 @@ function FileEntry({
                     <XCircle size={36} />
                 </div>
             </PreviewBox>
+            <Checkbox
+                value={file.name.startsWith("SPOILER_")}
+                onChange={(enabled) =>
+                    updateName(
+                        enabled
+                            ? `SPOILER_${file.name}`
+                            : file.name.replace(/^SPOILER_/, "")
+                    )
+                }
+                title={"스포일러로 표시"}
+            />
             <span className="fn">{file.name}</span>
             <span className="size">{determineFileSize(file.size)}</span>
         </Entry>
     );
 }
 
-export default function FilePreview({ state, addFile, removeFile }: Props) {
+export default function FilePreview({ state, addFile, removeFile, updateFileName }: Props) {
     if (state.type === "none") return null;
 
     return (
@@ -205,6 +221,7 @@ export default function FilePreview({ state, addFile, removeFile }: Props) {
                                     ? () => removeFile(index)
                                     : undefined
                             }
+                            updateName={(name: string) => updateFileName(index, name)}
                         />
                     </Fragment>
                 ))}

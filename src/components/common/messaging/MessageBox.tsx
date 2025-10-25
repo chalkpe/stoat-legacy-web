@@ -604,6 +604,19 @@ export default observer(({ channel }: Props) => {
                         });
                     }
                 }}
+                updateFileName={(index, name) => {
+                    setUploadState((prevState) => {
+                        if (prevState.type !== "attached") return prevState;
+                        const newFiles = [...prevState.files];
+                        const file = new File(
+                            [newFiles[index]],
+                            name,
+                            { type: newFiles[index].type },
+                        );
+                        newFiles[index] = file;
+                        return { type: "attached", files: newFiles };
+                    });
+                }}
             />
             <ReplyBar
                 channel={channel}

@@ -42,4 +42,4 @@ export function RenderSpoiler({ match }: CustomComponentProps) {
     );
 }
 
-export const remarkSpoiler = createComponent("spoiler", /\[\[[\s\S]+?\]\]/gm);
+export const remarkSpoiler = createComponent("spoiler", /\[\[([\s\S]+?)\]\]/gm);

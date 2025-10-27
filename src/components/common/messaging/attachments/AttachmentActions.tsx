@@ -16,6 +16,7 @@ import { IconButton } from "@revoltchat/ui";
 import { determineFileSize } from "../../../../lib/fileSize";
 
 import { useClient } from "../../../../controllers/client/ClientController";
+import { A } from "../../A";
 
 interface Props {
     attachment: API.File;
@@ -39,7 +40,7 @@ export default function AttachmentActions({ attachment }: Props) {
                     <span className={styles.filesize}>
                         {`${metadata.width}x${metadata.height}`} ({filesize})
                     </span>
-                    <a
+                    <A
                         href={open_url}
                         target="_blank"
                         className={styles.iconType}
@@ -47,8 +48,8 @@ export default function AttachmentActions({ attachment }: Props) {
                         <IconButton>
                             <LinkExternal size={24} />
                         </IconButton>
-                    </a>
-                    <a
+                    </A>
+                    <A
                         target="_blank"
                         href={download_url}
                         className={styles.downloadIcon}
@@ -58,7 +59,7 @@ export default function AttachmentActions({ attachment }: Props) {
                         <IconButton>
                             <Download size={24} />
                         </IconButton>
-                    </a>
+                    </A>
                 </div>
             );
         case "Audio":
@@ -67,7 +68,7 @@ export default function AttachmentActions({ attachment }: Props) {
                     <Headphone size={24} className={styles.iconType} />
                     <span className={styles.filename}>{filename}</span>
                     <span className={styles.filesize}>{filesize}</span>
-                    <a
+                    <A
                         href={download_url}
                         className={styles.downloadIcon}
                         download
@@ -76,7 +77,7 @@ export default function AttachmentActions({ attachment }: Props) {
                         <IconButton>
                             <Download size={24} />
                         </IconButton>
-                    </a>
+                    </A>
                 </div>
             );
         case "Video":
@@ -87,7 +88,7 @@ export default function AttachmentActions({ attachment }: Props) {
                     <span className={styles.filesize}>
                         {`${metadata.width}x${metadata.height}`} ({filesize})
                     </span>
-                    <a
+                    <A
                         href={download_url}
                         className={styles.downloadIcon}
                         download
@@ -96,7 +97,7 @@ export default function AttachmentActions({ attachment }: Props) {
                         <IconButton>
                             <Download size={24} />
                         </IconButton>
-                    </a>
+                    </A>
                 </div>
             );
         default:
@@ -106,7 +107,7 @@ export default function AttachmentActions({ attachment }: Props) {
                     <span className={styles.filename}>{filename}</span>
                     <span className={styles.filesize}>{filesize}</span>
                     {metadata.type === "Text" && (
-                        <a
+                        <A
                             href={open_url}
                             target="_blank"
                             className={styles.externalType}
@@ -114,9 +115,9 @@ export default function AttachmentActions({ attachment }: Props) {
                             <IconButton>
                                 <LinkExternal size={24} />
                             </IconButton>
-                        </a>
+                        </A>
                     )}
-                    <a
+                    <A
                         href={download_url}
                         className={styles.downloadIcon}
                         download
@@ -125,7 +126,7 @@ export default function AttachmentActions({ attachment }: Props) {
                         <IconButton>
                             <Download size={24} />
                         </IconButton>
-                    </a>
+                    </A>
                 </div>
             );
     }

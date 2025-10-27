@@ -7,8 +7,9 @@ type Props = Omit<React.ComponentProps<'a'>, 'href' | 'onClick'> & {
 };
 
 export const A: React.FC<Props> = ({ name, href, download, metadataType, onClick, children, ...props }) => {
-    const handleClick = useCallback(() => {
+    const handleClick = useCallback((e: MouseEvent) => {
         if ('webkit' in window) {
+            e.preventDefault();
             const webkit = window.webkit as any;
             webkit.messageHandlers.windowOpenHandler.postMessage({ url: href, download, name, type: metadataType });
         } else {

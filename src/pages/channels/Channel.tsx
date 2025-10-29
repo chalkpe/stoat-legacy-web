@@ -161,7 +161,7 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
 
     const [adjusted, setAdjusted] = useState(false);
     useEffect(() => {
-        const timer = setInterval(() => setAdjusted((a) => !a), 2000);
+        const timer = setInterval(() => setAdjusted((a) => !a), 500);
         return () => clearInterval(timer);
     }, []);
 

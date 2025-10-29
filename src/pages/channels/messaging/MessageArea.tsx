@@ -22,6 +22,7 @@ import { defer } from "../../../lib/defer";
 import { internalEmit, internalSubscribe } from "../../../lib/eventEmitter";
 import { getRenderer } from "../../../lib/renderer/Singleton";
 import { ScrollState } from "../../../lib/renderer/types";
+import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { useSession } from "../../../controllers/client/ClientController";
 import RequiresOnline from "../../../controllers/client/jsx/RequiresOnline";
@@ -194,6 +195,11 @@ export const MessageArea = observer(({ last_id, channel }: Props) => {
         if (message) {
             setHighlight(message);
             renderer.init(message);
+            
+            if (isTouchscreenDevice) {
+                const panels = document.querySelector("#app > div > div > div");
+                panels?.scrollTo({ behavior: "smooth", left: panels.clientWidth * 0.5 });
+            }
 
             if (channel.channel_type === "TextChannel") {
                 history.push(

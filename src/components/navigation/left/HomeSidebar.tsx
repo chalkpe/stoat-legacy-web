@@ -4,6 +4,7 @@ import {
     UserDetail,
     Wrench,
     Notepad,
+    Cog,
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useLocation, useParams } from "react-router-dom";
@@ -85,25 +86,21 @@ export default observer(() => {
                         </span>
                     </ButtonItem>
                 </ConditionalLink>
-                {!isTouchscreenDevice && (
-                    <>
-                        <ConditionalLink
-                            active={pathname === "/friends"}
-                            to="/friends">
-                            <ButtonItem
-                                active={pathname === "/friends"}
-                                alert={
-                                    incoming.length > 0 ? "mention" : undefined
-                                }
-                                alertCount={incoming.length}>
-                                <UserDetail size={20} />
-                                <span>
-                                    <Text id="app.navigation.tabs.friends" />
-                                </span>
-                            </ButtonItem>
-                        </ConditionalLink>
-                    </>
-                )}
+                <ConditionalLink
+                    active={pathname === "/friends"}
+                    to="/friends">
+                    <ButtonItem
+                        active={pathname === "/friends"}
+                        alert={
+                            incoming.length > 0 ? "mention" : undefined
+                        }
+                        alertCount={incoming.length}>
+                        <UserDetail size={20} />
+                        <span>
+                            <Text id="app.navigation.tabs.friends" />
+                        </span>
+                    </ButtonItem>
+                </ConditionalLink>
                 <ConditionalLink
                     active={channel?.channel_type === "SavedMessages"}
                     to="/open/saved">
@@ -112,6 +109,14 @@ export default observer(() => {
                         <Notepad size={20} />
                         <span>
                             <Text id="app.navigation.tabs.saved" />
+                        </span>
+                    </ButtonItem>
+                </ConditionalLink>
+                <ConditionalLink active={pathname === "/settings"} to="/settings">
+                    <ButtonItem active={pathname === "/settings"}>
+                        <Cog size={20} />
+                        <span>
+                            <Text id="app.settings.title" />
                         </span>
                     </ButtonItem>
                 </ConditionalLink>

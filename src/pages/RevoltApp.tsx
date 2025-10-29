@@ -8,7 +8,6 @@ import ContextMenus from "../lib/ContextMenus";
 import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
 
 import { Titlebar } from "../components/native/Titlebar";
-import BottomNavigation from "../components/navigation/BottomNavigation";
 import LeftSidebar from "../components/navigation/LeftSidebar";
 import RightSidebar from "../components/navigation/RightSidebar";
 import { useSystemAlert } from "../updateWorker";
@@ -88,11 +87,7 @@ const Routes = styled.div.attrs({ "data-component": "routes" })<{
 
 export default function App() {
     const path = useLocation().pathname;
-    const fixedBottomNav =
-        path === "/" ||
-        path === "/settings" ||
-        path.startsWith("/friends") ||
-        path.startsWith("/discover");
+
     const inChannel = path.includes("/channel");
     const inServer = path.includes("/server");
     const inSpecial =
@@ -155,11 +150,6 @@ export default function App() {
                             ? { width: 236, component: <RightSidebar /> }
                             : undefined
                     }
-                    bottomNav={{
-                        component: <BottomNavigation />,
-                        showIf: fixedBottomNav ? ShowIf.Always : ShowIf.Left,
-                        height: 50,
-                    }}
                     docked={isTouchscreenDevice ? Docked.None : Docked.Left}>
                     <Routes borders={inServer}>
                         <Switch>

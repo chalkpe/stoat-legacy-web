@@ -3,7 +3,8 @@
 	url = https://github.com/revoltchat/translations
 [submodule "external/components"]
 	path = external/components
-	url = https://github.com/revoltchat/components
+	url = https://github.com/chalkpe/stoat-legacy-web-components
+	branch = master
 [submodule "external/revolt.js"]
 	path = external/revolt.js
 	url = https://github.com/chalkpe/stoat-sdk.git

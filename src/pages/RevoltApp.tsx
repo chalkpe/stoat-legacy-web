@@ -143,7 +143,7 @@ export default function App() {
                     leftPanel={
                         inSpecial
                             ? undefined
-                            : { width: 290, component: <LeftSidebar /> }
+                            : { width: window.innerWidth, component: <LeftSidebar /> }
                     }
                     rightPanel={
                         !inSpecial && inChannel

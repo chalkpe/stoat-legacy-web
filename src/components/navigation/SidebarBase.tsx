@@ -21,28 +21,11 @@ export const GenericSidebarBase = styled.div<{
     mobilePadding?: boolean;
 }>`
     height: 100%;
-    width: 232px;
+    width: calc(100vw - 56px);
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
-    /*border-end-start-radius: 8px;*/
     background: var(--secondary-background);
-
-    /*> :nth-child(1) {
-        //border-end-start-radius: 8px;
-    }
-
-    > :nth-child(2) {
-        margin-top: 48px;
-        background: red;
-    }*/
-
-    ${(props) =>
-        props.mobilePadding &&
-        isTouchscreenDevice &&
-        css`
-            padding-bottom: 50px;
-        `}
 `;
 
 export const GenericSidebarList = styled.div`

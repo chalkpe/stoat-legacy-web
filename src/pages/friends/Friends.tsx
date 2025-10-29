@@ -67,7 +67,7 @@ export default observer(() => {
             <PageHeader
                 icon={<UserDetail size={24} />}
                 withTransparency
-                noBurger>
+            >
                 <div className={styles.title}>
                     <Text id="app.navigation.tabs.friends" />
                 </div>

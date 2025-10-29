@@ -30,11 +30,6 @@ const ServerBase = styled.div`
     border-start-start-radius: 8px;
     border-end-start-radius: 8px;
     overflow: hidden;
-
-    ${isTouchscreenDevice &&
-    css`
-        padding-bottom: 50px;
-    `}
 `;
 
 const ServerList = styled.div`

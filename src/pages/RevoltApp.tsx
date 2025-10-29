@@ -141,9 +141,7 @@ export default function App() {
                         (alert && statusBar ? " - 40px)" : "")
                     }
                     leftPanel={
-                        inSpecial
-                            ? undefined
-                            : { width: window.innerWidth, component: <LeftSidebar /> }
+                        { width: window.innerWidth, component: <LeftSidebar /> }
                     }
                     rightPanel={
                         !inSpecial && inChannel

@@ -62,6 +62,14 @@ export default observer(() => {
     // Track what page the user was last on (in home page).
     useEffect(() => state.layout.setLastHomePath(pathname), [pathname]);
 
+    const scrollToPanel = () => {
+        if (isTouchscreenDevice) {
+            const panels = document.querySelector("#app > div > div > div");
+            panels?.scrollTo({ behavior: "smooth", left: panels.clientWidth });
+        }
+    };
+
+
     channels.sort((b, a) =>
         a.last_message_id_or_past.localeCompare(b.last_message_id_or_past),
     );
@@ -78,7 +86,7 @@ export default observer(() => {
             </Navbar>
             <ConnectionStatus />
             <GenericSidebarList>
-                <ConditionalLink active={pathname === "/"} to="/">
+                <ConditionalLink active={pathname === "/"} to="/" onClick={scrollToPanel}>
                     <ButtonItem active={pathname === "/"}>
                         <Home size={20} />
                         <span>
@@ -87,6 +95,7 @@ export default observer(() => {
                     </ButtonItem>
                 </ConditionalLink>
                 <ConditionalLink
+                    onClick={scrollToPanel}
                     active={pathname === "/friends"}
                     to="/friends">
                     <ButtonItem
@@ -102,6 +111,7 @@ export default observer(() => {
                     </ButtonItem>
                 </ConditionalLink>
                 <ConditionalLink
+                    onClick={scrollToPanel}
                     active={channel?.channel_type === "SavedMessages"}
                     to="/open/saved">
                     <ButtonItem
@@ -112,7 +122,7 @@ export default observer(() => {
                         </span>
                     </ButtonItem>
                 </ConditionalLink>
-                <ConditionalLink active={pathname === "/settings"} to="/settings">
+                <ConditionalLink active={pathname === "/settings"} to="/settings" onClick={scrollToPanel}>
                     <ButtonItem active={pathname === "/settings"}>
                         <Cog size={20} />
                         <span>
@@ -160,6 +170,7 @@ export default observer(() => {
 
                     return (
                         <ConditionalLink
+                            onClick={scrollToPanel}
                             key={channel._id}
                             active={channel._id === channel_id}
                             to={`/channel/${channel._id}`}>

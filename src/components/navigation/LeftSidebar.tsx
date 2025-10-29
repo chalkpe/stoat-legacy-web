@@ -22,7 +22,10 @@ export default observer(() => {
     return (
         <SidebarBase>
             <Switch>
-                <Route path="/settings" />
+                <Route path="/settings">
+                    <ServerListSidebar />
+                    {isOpen && <HomeSidebar />}
+                </Route>
                 <Route path="/server/:server/channel/:channel">
                     <ServerListSidebar />
                     {isOpen && <ServerSidebar />}

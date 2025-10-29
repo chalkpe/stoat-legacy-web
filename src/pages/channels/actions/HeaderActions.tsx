@@ -132,7 +132,7 @@ export default function HeaderActions({ channel }: ChannelHeaderProps) {
                         </IconButton>
                     </>
                 )}
-                <VoiceActions channel={channel} />
+                {/* <VoiceActions channel={channel} /> */}
                 {(channel.channel_type === "Group" ||
                     channel.channel_type === "TextChannel") && (
                     <IconButton onClick={openMembers}>

@@ -34,20 +34,6 @@ export const Friend = observer(({ user }: Props) => {
             <>
                 <IconButton
                     shape="circle"
-                    className={classNames(styles.button, styles.success)}
-                    onClick={(ev) =>
-                        stopPropagation(
-                            ev,
-                            user
-                                .openDM()
-                                .then(voiceState.connect)
-                                .then((x) => history.push(`/channel/${x._id}`)),
-                        )
-                    }>
-                    <PhoneCall size={20} />
-                </IconButton>
-                <IconButton
-                    shape="circle"
                     className={styles.button}
                     onClick={(ev) =>
                         stopPropagation(

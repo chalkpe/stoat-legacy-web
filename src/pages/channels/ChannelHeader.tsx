@@ -42,16 +42,14 @@ const Info = styled.div`
     }
 
     .status {
-        width: 10px;
-        height: 10px;
+        width: 8px;
+        height: 8px;
         display: inline-block;
-        margin-inline-end: 6px;
         border-radius: var(--border-radius-half);
     }
 
     .desc {
         cursor: pointer;
-        margin-top: 2px;
         font-size: 0.8em;
         font-weight: 400;
         color: var(--secondary-foreground);
@@ -69,7 +67,7 @@ export default observer(({ channel }: ChannelHeaderProps) => {
             icon = <Notepad size={24} />;
             break;
         case "DirectMessage":
-            icon = <At size={24} />;
+            icon = <></>;
             recipient = channel.recipient;
             break;
         case "Group":
@@ -89,7 +87,6 @@ export default observer(({ channel }: ChannelHeaderProps) => {
                 {isTouchscreenDevice &&
                     channel.channel_type === "DirectMessage" && (
                         <>
-                            <div className="divider" />
                             <span className="desc">
                                 <div
                                     className="status"
@@ -98,7 +95,7 @@ export default observer(({ channel }: ChannelHeaderProps) => {
                                             useStatusColour(recipient),
                                     }}
                                 />
-                                <UserStatus user={recipient} />
+                                {/* <UserStatus user={recipient} /> */}
                             </span>
                         </>
                     )}

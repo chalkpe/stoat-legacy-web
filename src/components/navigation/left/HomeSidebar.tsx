@@ -140,7 +140,7 @@ export default observer(() => {
                         </ButtonItem>
                     </Link>
                 )}
-                <Category>
+                <Category style={{ marginTop: "16px" }}>
                     <Text id="app.main.categories.conversations" />
                     <IconButton
                         onClick={() =>

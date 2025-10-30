@@ -44,6 +44,7 @@ const components = {
     a: RenderAnchor,
     p: styled.p`
         margin: 0;
+        line-height: 1.5;
 
         > code {
             padding: 1px 4px;
@@ -92,11 +93,13 @@ const components = {
         list-style-position: inside;
         padding-left: 10px;
         margin: 0.2em 0;
+        line-height: 1.5;
     `,
     ol: styled.ol`
         list-style-position: inside;
         padding-left: 10px;
         margin: 0.2em 0;
+        line-height: 1.5;
     `,
     li: styled.li`
         ${(props) =>

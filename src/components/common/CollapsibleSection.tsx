@@ -26,6 +26,7 @@ export default function CollapsibleSection({
 
     return (
         <Details
+            style={{ marginBottom: "16px" }}
             open={layout.getSectionState(id, defaultValue)}
             onToggle={(e) =>
                 layout.setSectionState(id, e.currentTarget.open, defaultValue)

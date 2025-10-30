@@ -52,7 +52,7 @@ export default styled.div<BaseMessageProps>`
     ${(props) =>
         props.head &&
         css`
-            margin-top: 16px;
+            margin-top: 20px;
         `}
 
     ${(props) =>

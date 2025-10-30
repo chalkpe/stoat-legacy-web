@@ -123,7 +123,7 @@ export const ReplyBase = styled.div<{
     ${(props) =>
         props.head &&
         css`
-            margin-top: 12px;
+            margin-top: 20px;
 
             &::before {
                 border-start-start-radius: 4px;

@@ -58,7 +58,8 @@ export type Fonts =
     | "Raleway"
     | "Ubuntu"
     | "Comic Neue"
-    | "Lexend";
+    | "Lexend"
+    | "CustomFont";
 
 export type MonospaceFonts =
     | "Fira Code"
@@ -219,6 +220,13 @@ export const FONTS: Record<Fonts, { name: string; load: () => void }> = {
             await import("@fontsource/comic-neue/400.css");
             await import("@fontsource/comic-neue/700.css");
             await import("@fontsource/comic-neue/400-italic.css");
+        },
+    },
+
+    CustomFont: {
+        name: "CustomFont",
+        load: async () => {
+            /* No-op */
         },
     },
 };

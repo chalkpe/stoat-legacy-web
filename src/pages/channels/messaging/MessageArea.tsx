@@ -198,7 +198,7 @@ export const MessageArea = observer(({ last_id, channel }: Props) => {
             
             if (isTouchscreenDevice) {
                 const panels = document.querySelector("#app > div > div > div");
-                panels?.scrollTo({ behavior: "smooth", left: panels.clientWidth * 0.5 });
+                panels?.scrollTo({ behavior: "smooth", left: panels.clientWidth * 0.3 });
             }
 
             if (channel.channel_type === "TextChannel") {

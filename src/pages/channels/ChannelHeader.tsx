@@ -81,7 +81,7 @@ export default observer(({ channel }: ChannelHeaderProps) => {
     }
 
     return (
-        <PageHeader icon={icon} withTransparency>
+        <PageHeader icon={icon} style={{ backgroundColor: 'var(--primary-background)' }}>
             <Info>
                 <span className="name">
                     <ChannelName channel={channel} />

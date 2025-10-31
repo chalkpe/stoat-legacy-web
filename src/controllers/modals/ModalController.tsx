@@ -215,17 +215,17 @@ class ModalControllerExtended extends ModalController<Modal> {
         const link = determineLink(href);
         const settings = getApplicationState().settings;
 
-        if (mismatch) {
-            if (href) {
-                modalController.push({
-                    type: "link_warning",
-                    link: href,
-                    callback: () => this.openLink(href, true) as true,
-                });
-            }
+        // if (mismatch) {
+        //     if (href) {
+        //         modalController.push({
+        //             type: "link_warning",
+        //             link: href,
+        //             callback: () => this.openLink(href, true) as true,
+        //         });
+        //     }
 
-            return true;
-        }
+        //     return true;
+        // }
 
         switch (link.type) {
             case "navigate": {
@@ -233,18 +233,18 @@ class ModalControllerExtended extends ModalController<Modal> {
                 break;
             }
             case "external": {
-                if (
-                    !trusted &&
-                    !settings.security.isTrustedOrigin(link.url.hostname)
-                ) {
-                    modalController.push({
-                        type: "link_warning",
-                        link: link.href,
-                        callback: () => this.openLink(href, true) as true,
-                    });
-                } else {
-                    window.open(link.href, "_blank", "noopener,noreferrer");
-                }
+                // if (
+                //     !trusted &&
+                //     !settings.security.isTrustedOrigin(link.url.hostname)
+                // ) {
+                //     modalController.push({
+                //         type: "link_warning",
+                //         link: link.href,
+                //         callback: () => this.openLink(href, true) as true,
+                //     });
+                // } else {
+                window.open(link.href, "_blank", "noopener,noreferrer");
+                // }
             }
         }
 

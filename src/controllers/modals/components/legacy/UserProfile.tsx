@@ -247,7 +247,7 @@ export const UserProfile = observer(
                                 <UserX size={28} />
                             </IconButton>
                         )}
-                        {!user.bot && flags != 2 && flags != 4 && (
+                        {/* {!user.bot && flags != 2 && flags != 4 && (
                             <Localizer>
                                 <Tooltip
                                     content={
@@ -264,7 +264,7 @@ export const UserProfile = observer(
                                     </IconButton>
                                 </Tooltip>
                             </Localizer>
-                        )}
+                        )} */}
                     </div>
                     {badges > 0 && (
                         <div

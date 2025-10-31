@@ -694,19 +694,19 @@ export default function ContextMenus() {
                             }
                         }
 
-                        if (user._id !== userId) {
-                            generateAction(
-                                {
-                                    action: "report",
-                                    target: user,
-                                    messageId: contextualMessage,
-                                },
-                                "report_user",
-                                undefined,
-                                undefined,
-                                "var(--error)",
-                            );
-                        }
+                        // if (user._id !== userId) {
+                        //     generateAction(
+                        //         {
+                        //             action: "report",
+                        //             target: user,
+                        //             messageId: contextualMessage,
+                        //         },
+                        //         "report_user",
+                        //         undefined,
+                        //         undefined,
+                        //         "var(--error)",
+                        //     );
+                        // }
                     }
 
                     if (contextualChannel) {
@@ -833,18 +833,18 @@ export default function ContextMenus() {
                             });
                         }
 
-                        if (message.author_id !== userId) {
-                            generateAction(
-                                {
-                                    action: "report",
-                                    target: message,
-                                },
-                                "report_message",
-                                undefined,
-                                undefined,
-                                "var(--error)",
-                            );
-                        }
+                        // if (message.author_id !== userId) {
+                        //     generateAction(
+                        //         {
+                        //             action: "report",
+                        //             target: message,
+                        //         },
+                        //         "report_message",
+                        //         undefined,
+                        //         undefined,
+                        //         "var(--error)",
+                        //     );
+                        // }
 
                         if (
                             message.author_id === userId ||
@@ -1082,27 +1082,27 @@ export default function ContextMenus() {
                                 "copy_sid",
                             );
 
-                            pushDivider();
                             if (userId === server.owner) {
-                                generateAction(
-                                    { action: "delete_server", target: server },
-                                    "delete_server",
-                                    undefined,
-                                    undefined,
-                                    "var(--error)",
-                                );
+                                // generateAction(
+                                //     { action: "delete_server", target: server },
+                                //     "delete_server",
+                                //     undefined,
+                                //     undefined,
+                                //     "var(--error)",
+                                // );
                             } else {
-                                generateAction(
-                                    {
-                                        action: "report",
-                                        target: server,
-                                    },
-                                    "report_server",
-                                    undefined,
-                                    undefined,
-                                    "var(--error)",
-                                );
+                                // generateAction(
+                                //     {
+                                //         action: "report",
+                                //         target: server,
+                                //     },
+                                //     "report_server",
+                                //     undefined,
+                                //     undefined,
+                                //     "var(--error)",
+                                // );
 
+                                pushDivider();
                                 generateAction(
                                     { action: "leave_server", target: server },
                                     "leave_server",

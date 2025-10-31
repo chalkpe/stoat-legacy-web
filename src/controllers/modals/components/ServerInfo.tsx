@@ -26,7 +26,7 @@ export default function ServerInfo({
                 });
                 return true;
             },
-            children: "Edit Identity",
+            children: "프로필 변경",
             palette: "primary",
         },
     ];
@@ -45,17 +45,17 @@ export default function ServerInfo({
         });
     }
 
-    actions.push({
-        onClick: () => {
-            modalController.push({
-                type: "report",
-                target: server,
-            });
-            return true;
-        },
-        children: <Text id="app.special.modals.actions.report" />,
-        palette: "error",
-    });
+    // actions.push({
+    //     onClick: () => {
+    //         modalController.push({
+    //             type: "report",
+    //             target: server,
+    //         });
+    //         return true;
+    //     },
+    //     children: <Text id="app.special.modals.actions.report" />,
+    //     palette: "error",
+    // });
 
     return (
         <Modal

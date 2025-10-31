@@ -180,6 +180,7 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
                 channel._id,
                 channel.last_message_id!,
                 true,
+                true,
             );
 
         checkUnread();
@@ -213,6 +214,7 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
                 channel.client.unreads!.markRead(
                     channel._id,
                     channel.last_message_id!,
+                    true,
                     true,
                 );
             }

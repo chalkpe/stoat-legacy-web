@@ -105,7 +105,7 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
                   ${() =>
             isTouchscreenDevice &&
             css`
-                top: 56px;
+                top: 0;
             `}
 
         > div {

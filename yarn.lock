@@ -3749,6 +3749,7 @@ __metadata:
     history: 4
     json-stringify-deterministic: ^1.0.2
     klaw: ^3.0.0
+    lightgallery: ^2.9.0
     localforage: ^1.9.0
     lodash: ^4.17.21
     lodash.defaultsdeep: ^4.6.1
@@ -6133,6 +6134,13 @@ __metadata:
   dependencies:
     immediate: ~3.0.5
   checksum: 6da9f2121d2dbd15f1eca44c0c7e211e66a99c7b326ec8312645f3648935bc3a658cf0e9fa7b5f10144d9e2641500b4f55bd32754607c3de945b5f443e50ddd1
+  languageName: node
+  linkType: hard
+
+"lightgallery@npm:^2.9.0":
+  version: 2.9.0
+  resolution: "lightgallery@npm:2.9.0"
+  checksum: 04407a8490575f7a35d5e8c1ce2bb21f7764100aa40d66a0ab9790d2b81048ee01a831dbdab098a18443c63db8320fea2d20a4407a90a43cd9a75e8340b78338
   languageName: node
   linkType: hard
 

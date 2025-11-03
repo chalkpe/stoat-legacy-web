@@ -51,9 +51,11 @@ export default class Session {
         this.onReady = this.onReady.bind(this);
         this.onOnline = this.onOnline.bind(this);
         this.onOffline = this.onOffline.bind(this);
+        this.onVisibilityChange = this.onVisibilityChange.bind(this);
 
         window.addEventListener("online", this.onOnline);
         window.addEventListener("offline", this.onOffline);
+        document.addEventListener("visibilitychange", this.onVisibilityChange);
     }
 
     /**
@@ -83,6 +85,21 @@ export default class Session {
         this.emit({
             action: "OFFLINE",
         });
+    }
+
+    /**
+     * Called when document visibility changes
+     */
+    private onVisibilityChange() {
+        if (document.visibilityState === "visible") {
+            this.emit({
+                action: "ONLINE",
+            });
+        } else {
+            this.emit({
+                action: "OFFLINE",
+            });
+        }
     }
 
     /**

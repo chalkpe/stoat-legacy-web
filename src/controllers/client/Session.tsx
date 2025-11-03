@@ -92,10 +92,19 @@ export default class Session {
      */
     private onVisibilityChange() {
         if (document.visibilityState === "visible") {
-            this.emit({
-                action: "ONLINE",
-            });
+            if (this.client?.websocket.ws?.readyState !== WebSocket.OPEN) {
+                console.log("[Session] WebSocket is closed, reconnecting...");
+                this.emit({
+                    action: "DISCONNECT",
+                });
+            } else {
+                console.log("[Session] Document visible and WebSocket open.");
+                this.emit({
+                    action: "ONLINE",
+                });
+            }
         } else {
+            console.log("[Session] Document hidden.");
             this.emit({
                 action: "OFFLINE",
             });

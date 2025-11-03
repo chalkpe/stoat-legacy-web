@@ -99,6 +99,13 @@ export default class Session {
                 });
             } else {
                 console.log("[Session] Document visible and WebSocket open.");
+                this.client?.unreads?.sync()
+                    .then(() => {
+                        console.log("[Session] Unreads synced successfully.");
+                    })
+                    .catch((err) => {
+                        console.error("[Session] Failed to sync unreads:", err);
+                    });
                 this.emit({
                     action: "ONLINE",
                 });

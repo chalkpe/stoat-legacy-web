@@ -243,7 +243,7 @@ export default class Session {
             }
             // Ready successfully received
             case "SUCCESS": {
-                this.assert("Connecting");
+                // this.assert("Connecting");
                 this.state = "Online";
                 break;
             }

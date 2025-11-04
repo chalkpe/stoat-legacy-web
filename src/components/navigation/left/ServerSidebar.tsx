@@ -22,7 +22,7 @@ import ConnectionStatus from "../items/ConnectionStatus";
 
 const ServerBase = styled.div`
     height: 100%;
-    width: calc(100vw - 56px);
+    width: calc(100vw - 70px);
     display: flex;
     flex-shrink: 0;
     flex-direction: column;

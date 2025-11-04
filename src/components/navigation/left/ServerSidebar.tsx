@@ -89,6 +89,14 @@ export default observer(() => {
                     } else {
                         if (entry.unread && entry.last_message_id) {
                             entry.ack(entry.last_message_id, true);
+                            setTimeout(() => {
+                                client.unreads!.markRead(
+                                    entry._id,
+                                    entry.last_message_id!,
+                                    true,
+                                    true,
+                                );
+                            }, 1000);
                         }
                         
                         if (isTouchscreenDevice) {

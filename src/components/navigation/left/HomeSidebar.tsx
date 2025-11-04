@@ -173,6 +173,14 @@ export default observer(() => {
                             onClick={() => {
                                 if (channel.unread && channel.last_message_id) {
                                     channel.ack(channel.last_message_id, true);
+                                    setTimeout(() => {
+                                        client.unreads!.markRead(
+                                            channel._id,
+                                            channel.last_message_id!,
+                                            true,
+                                            true,
+                                        );
+                                    }, 1000);
                                 }
                                 scrollToPanel();
                             }}

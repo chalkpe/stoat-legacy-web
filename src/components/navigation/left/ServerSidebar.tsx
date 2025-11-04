@@ -86,9 +86,15 @@ export default observer(() => {
                             "channel_mention",
                         );
                         e.preventDefault();
-                    } else if (isTouchscreenDevice) {
-                        const panels = document.querySelector("#app > div > div > div");
-                        panels?.scrollTo({ behavior: "smooth", left: panels.clientWidth });
+                    } else {
+                        if (entry.unread && entry.last_message_id) {
+                            entry.ack(entry.last_message_id, true);
+                        }
+                        
+                        if (isTouchscreenDevice) {
+                            const panels = document.querySelector("#app > div > div > div");
+                            panels?.scrollTo({ behavior: "smooth", left: panels.clientWidth });
+                        }
                     }
                 }}
                 key={entry._id}

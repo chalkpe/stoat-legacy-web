@@ -170,7 +170,12 @@ export default observer(() => {
 
                     return (
                         <ConditionalLink
-                            onClick={scrollToPanel}
+                            onClick={() => {
+                                if (channel.unread && channel.last_message_id) {
+                                    channel.ack(channel.last_message_id, true);
+                                }
+                                scrollToPanel();
+                            }}
                             key={channel._id}
                             active={channel._id === channel_id}
                             to={`/channel/${channel._id}`}>

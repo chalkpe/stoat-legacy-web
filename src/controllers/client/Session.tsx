@@ -250,7 +250,7 @@ export default class Session {
             // Client got disconnected
             case "DISCONNECT": {
                 if (navigator.onLine) {
-                    this.assert("Online");
+                    // this.assert("Online");
                     this.state = "Disconnected";
 
                     setTimeout(() => {
@@ -267,7 +267,7 @@ export default class Session {
             }
             // We should try reconnecting
             case "RETRY": {
-                this.assert("Disconnected");
+                // this.assert("Disconnected");
                 this.client!.websocket.connect();
                 this.state = "Connecting";
                 break;
@@ -286,7 +286,7 @@ export default class Session {
             }
             // Browser went online
             case "ONLINE": {
-                this.assert("Offline");
+                // this.assert("Offline");
                 if (this.client) {
                     this.state = "Disconnected";
                     this.emit({

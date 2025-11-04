@@ -33,7 +33,7 @@ export default observer(() => {
             active={server_id}
             createServer={createServer}
             permit={state.notifications}
-            home={state.layout.getLastHomePath}
+            home={() => "/"}
             servers={state.ordering.orderedServers}
             reorder={state.ordering.reorderServer}
             showDiscovery={IS_REVOLT}

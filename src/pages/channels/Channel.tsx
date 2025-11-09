@@ -13,6 +13,7 @@ import { useEffect, useState } from "preact/hooks";
 import ErrorBoundary from "../../lib/ErrorBoundary";
 import { internalSubscribe } from "../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
+import { trackChannelOpen, trackChannelClose } from "../../lib/channelTracking";
 
 import { useApplicationState } from "../../mobx/State";
 import { SIDEBAR_MEMBERS } from "../../mobx/stores/Layout";
@@ -146,6 +147,14 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
     // Store unread location.
     const [lastId, setLastId] = useState<string | undefined>(undefined);
 
+    // Track channel open/close
+    useEffect(() => {
+        trackChannelOpen(channel._id);
+        return () => {
+            trackChannelClose(channel._id);
+        };
+    }, [channel._id]);
+
     useEffect(
         () =>
             internalSubscribe("NewMessages", "hide", () =>
@@ -218,6 +227,9 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
                     true,
                 );
             }
+
+            // Track channel open event
+            trackChannelOpen(channel._id);
 
             // Subscribe to channel if expired
             subscribe();

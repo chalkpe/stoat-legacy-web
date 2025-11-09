@@ -7,7 +7,7 @@ import { ulid } from "ulid";
 
 import { Text } from "preact-i18n";
 import { memo } from "preact/compat";
-import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
+import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
 
 import { IconButton, Picker } from "@revoltchat/ui";
 
@@ -222,6 +222,7 @@ export default observer(({ channel }: Props) => {
     const [typing, setTyping] = useState<boolean | number>(false);
     const [replies, setReplies] = useState<Reply[]>([]);
     const [picker, setPicker] = useState(false);
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const client = useClient();
     const translate = useTranslation();
 
@@ -320,6 +321,12 @@ export default observer(({ channel }: Props) => {
      * Trigger send message.
      */
     async function send() {
+        // Flush IME composition (한글 입력 완료)
+        if (textAreaRef.current) {
+            textAreaRef.current.blur();
+            textAreaRef.current.focus();
+        }
+
         if (uploadState.type === "uploading" || uploadState.type === "sending")
             return;
 
@@ -681,6 +688,7 @@ export default observer(({ channel }: Props) => {
                     <ThisCodeWillBeReplacedAnywaysSoIMightAsWellJustDoItThisWay__Padding />
                 )}
                 <TextAreaAutoSize
+                    ref={textAreaRef}
                     autoFocus
                     hideBorder
                     maxRows={20}
@@ -690,6 +698,10 @@ export default observer(({ channel }: Props) => {
                     value={state.draft.get(channel._id)?.content ?? ""}
                     padding="var(--message-box-padding)"
                     onKeyDown={(e) => {
+                        if (e.isComposing) {
+                            return;
+                        }
+
                         if (e.ctrlKey && e.key === "Enter") {
                             e.preventDefault();
                             return send();

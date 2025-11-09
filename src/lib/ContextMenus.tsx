@@ -118,15 +118,17 @@ type Action =
 // ! FIXME: I dare someone to re-write this
 // Tip: This should just be split into separate context menus per logical area.
 export default function ContextMenus() {
-    const session = useSession()!;
-    const client = session.client!;
-    const userId = client.user!._id;
+    const session = useSession();
+    const client = session?.client;
+    const userId = client?.user!._id;
     const state = useApplicationState();
     const history = useHistory();
-    const isOnline = session.state === "Online";
+    const isOnline = session?.state === "Online";
+
+    if (!client) return null;
 
     function contextClick(data?: Action) {
-        if (typeof data === "undefined") return;
+        if (typeof data === "undefined" || !client) return;
 
         (async () => {
             switch (data.action) {

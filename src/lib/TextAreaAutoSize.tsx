@@ -1,5 +1,6 @@
 import styled from "styled-components/macro";
 
+import { forwardRef } from "preact/compat";
 import { RefObject } from "preact";
 import { useEffect, useLayoutEffect, useRef } from "preact/hooks";
 
@@ -54,7 +55,7 @@ const Ghost = styled.div<{ lineHeight: string; maxRows: number }>`
     }
 `;
 
-export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
+const TextAreaAutoSize = forwardRef<HTMLTextAreaElement, TextAreaAutoSizeProps>((props, forwardedRef) => {
     const {
         autoFocus,
         minHeight,
@@ -68,7 +69,9 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
         ...textAreaProps
     } = props;
 
-    const ref = useRef<HTMLTextAreaElement>() as RefObject<HTMLTextAreaElement>;
+    const internalRef = useRef<HTMLTextAreaElement>() as RefObject<HTMLTextAreaElement>;
+    const ref = forwardedRef || internalRef;
+
     const ghost = useRef<HTMLDivElement>() as RefObject<HTMLDivElement>;
 
     useLayoutEffect(() => {
@@ -160,4 +163,6 @@ export default function TextAreaAutoSize(props: TextAreaAutoSizeProps) {
             </Ghost>
         </Container>
     );
-}
+});
+
+export default TextAreaAutoSize;

@@ -172,14 +172,6 @@ const Message = observer(
                                 />
                             </span>
                         )}
-                        {replacement ??
-                            (content && <Markdown content={content} />)}
-                        {!queued && <InviteList message={message} />}
-                        {queued?.error && (
-                            <Category>
-                                <I18nError error={queued.error} />
-                            </Category>
-                        )}
                         {message.attachments?.map((attachment, index) => (
                             <Attachment
                                 key={index}
@@ -190,6 +182,14 @@ const Message = observer(
                                 }
                             />
                         ))}
+                        {replacement ??
+                            (content && <Markdown content={content} />)}
+                        {!queued && <InviteList message={message} />}
+                        {queued?.error && (
+                            <Category>
+                                <I18nError error={queued.error} />
+                            </Category>
+                        )}
                         {message.embeds?.map((embed, index) => (
                             <Embed key={index} embed={embed} />
                         ))}

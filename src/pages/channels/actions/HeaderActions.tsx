@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Search } from "@styled-icons/boxicons-regular";
+import { Search, Pin } from "@styled-icons/boxicons-regular";
 import {
     UserPlus,
     Cog,
@@ -95,6 +95,18 @@ export default function HeaderActions({ channel }: ChannelHeaderProps) {
         chainedDefer(() => internalEmit("RightSidebar", "open", "search"));
     }
 
+    function openPinned() {
+        if (
+            !isTouchscreenDevice &&
+            !layout.getSectionState(SIDEBAR_MEMBERS, true)
+        ) {
+            layout.toggleSectionState(SIDEBAR_MEMBERS, true);
+        }
+
+        slideOpen();
+        chainedDefer(() => internalEmit("RightSidebar", "open", "pinned"));
+    }
+
     function openMembers() {
         if (!isTouchscreenDevice) {
             layout.toggleSectionState(SIDEBAR_MEMBERS, true);
@@ -140,19 +152,14 @@ export default function HeaderActions({ channel }: ChannelHeaderProps) {
                     </IconButton>
                 )}
                 {channel.channel_type !== "VoiceChannel" && (
-                    /*<SearchBar>
-                        <input
-                            type="text"
-                            placeholder="Search..."
-                            onClick={openSearch}
-                        />
-                        <div className="actions">
-                            <Search size={18} />
-                        </div>
-                    </SearchBar>*/
-                    <IconButton onClick={openSearch}>
-                        <Search size={25} />
-                    </IconButton>
+                    <>
+                        <IconButton onClick={openPinned}>
+                            <Pin size={25} />
+                        </IconButton>
+                        <IconButton onClick={openSearch}>
+                            <Search size={25} />
+                        </IconButton>
+                    </>
                 )}
             </Container>
         </>

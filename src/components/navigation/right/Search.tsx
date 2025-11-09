@@ -69,9 +69,10 @@ const SearchBase = styled.div`
 
 interface Props {
     close: () => void;
+    pinned: boolean;
 }
 
-export function SearchSidebar({ close }: Props) {
+export function SearchSidebar({ close, pinned }: Props) {
     const channel = useClient().channels.get(
         useParams<{ channel: string }>().channel,
     )!;
@@ -83,9 +84,9 @@ export function SearchSidebar({ close }: Props) {
     const [state, setState] = useState<SearchState>({ type: "waiting" });
 
     async function search() {
-        if (!query) return;
+        if (!query && !pinned) return;
         setState({ type: "loading" });
-        const data = await channel.searchWithUsers({ query, sort });
+        const data = await channel.searchWithUsers(pinned ? { pinned } as any : { query, sort });
         setState({ type: "results", results: data.messages });
     }
 
@@ -95,35 +96,38 @@ export function SearchSidebar({ close }: Props) {
     }, [sort]);
 
     return (
-        <GenericSidebarBase data-scroll-offset="with-padding">
+        <GenericSidebarBase {...(pinned ? {} : { 'data-scroll-offset': "with-padding" })}>
             <GenericSidebarList>
                 <SearchBase>
-                    <Category>
-                        <Error
-                            error={<a onClick={close}>« back to members</a>}
+                    {pinned ? 
+                        <Category>고정된 메시지</Category> : <>
+                        <Category>
+                            <Error
+                                error={<a onClick={close}>« back to members</a>}
+                            />
+                        </Category>
+                        <Category>
+                            <Text id="app.main.channel.search.title" />
+                        </Category>
+                        <InputBox
+                            value={query}
+                            onKeyDown={(e) => e.key === "Enter" && search()}
+                            onChange={(e) => setQuery(e.currentTarget.value)}
                         />
-                    </Category>
-                    <Category>
-                        <Text id="app.main.channel.search.title" />
-                    </Category>
-                    <InputBox
-                        value={query}
-                        onKeyDown={(e) => e.key === "Enter" && search()}
-                        onChange={(e) => setQuery(e.currentTarget.value)}
-                    />
-                    <div className="sort">
-                        {["Latest", "Oldest", "Relevance"].map((key) => (
-                            <Button
-                                key={key}
-                                compact
-                                palette={sort === key ? "accent" : "primary"}
-                                onClick={() => setSort(key as Sort)}>
-                                <Text
-                                    id={`app.main.channel.search.sort.${key.toLowerCase()}`}
-                                />
-                            </Button>
-                        ))}
-                    </div>
+                        <div className="sort">
+                            {["Latest", "Oldest", "Relevance"].map((key) => (
+                                <Button
+                                    key={key}
+                                    compact
+                                    palette={sort === key ? "accent" : "primary"}
+                                    onClick={() => setSort(key as Sort)}>
+                                    <Text
+                                        id={`app.main.channel.search.sort.${key.toLowerCase()}`}
+                                    />
+                                </Button>
+                            ))}
+                        </div>
+                    </>}
                     {state.type === "loading" && <Preloader type="ring" />}
                     {state.type === "results" && (
                         <div className="list">

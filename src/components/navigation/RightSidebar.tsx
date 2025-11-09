@@ -9,7 +9,7 @@ import MemberSidebar from "./right/MemberSidebar";
 import { SearchSidebar } from "./right/Search";
 
 export default function RightSidebar() {
-    const [sidebar, setSidebar] = useState<"search" | undefined>();
+    const [sidebar, setSidebar] = useState<"search" | "pinned" | undefined>();
     const close = () => setSidebar(undefined);
 
     useEffect(
@@ -23,8 +23,8 @@ export default function RightSidebar() {
     );
 
     const content =
-        sidebar === "search" ? (
-            <SearchSidebar close={close} />
+        sidebar === "search" || sidebar === "pinned" ? (
+            <SearchSidebar close={close} pinned={sidebar === "pinned"} />
         ) : (
             <MemberSidebar />
         );

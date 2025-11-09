@@ -15,7 +15,7 @@ import styles from "./Attachment.module.scss";
 import classNames from "classnames";
 
 import { memo } from "preact/compat";
-import { useRef, useState } from "preact/hooks";
+import { useRef, useState, useEffect } from "preact/hooks";
 
 import { useClient } from "../../../../controllers/client/ClientController";
 
@@ -35,6 +35,19 @@ function ImageFile({ attachment, ...props }: Props) {
     const url = client.generateFileURL(attachment)!;
     const ref = useRef<LG | null>(null);
 
+    useEffect(() => {
+        const handlePopState = () => {
+            if (ref.current?.lgOpened) ref.current?.closeGallery();
+        };
+        window.addEventListener('popstate', handlePopState);
+        return () => window.removeEventListener('popstate', handlePopState);
+    }, []);
+
+    const handleOpenGallery = () => {
+        ref.current?.openGallery();
+        window.history.pushState(null, '');
+    };
+
     return (
         <LightGallery 
             licenseKey="GPLv3"
@@ -52,7 +65,7 @@ function ImageFile({ attachment, ...props }: Props) {
                 className={classNames(styles.image, {
                     [styles.loading]: loading !== ImageLoadingState.Loaded,
                 })}
-                onClick={() => ref.current?.openGallery()}
+                onClick={handleOpenGallery}
                 onMouseDown={(ev) => ev.button === 1 && window.open(url, "_blank")}
                 onLoad={() => setLoading(ImageLoadingState.Loaded)}
                 onError={() => setLoading(ImageLoadingState.Error)}

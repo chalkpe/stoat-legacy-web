@@ -91,30 +91,14 @@ export default class Session {
      * Called when document visibility changes
      */
     private onVisibilityChange() {
+        this.client?.websocket.disconnect();
+
         if (document.visibilityState === "visible") {
-            if (this.client?.websocket.ws?.readyState !== WebSocket.OPEN) {
-                console.log("[Session] WebSocket is closed, reconnecting...");
-                this.emit({
-                    action: "DISCONNECT",
-                });
-            } else {
-                console.log("[Session] Document visible and WebSocket open.");
-                this.client?.unreads?.sync()
-                    .then(() => {
-                        console.log("[Session] Unreads synced successfully.");
-                    })
-                    .catch((err) => {
-                        console.error("[Session] Failed to sync unreads:", err);
-                    });
-                this.emit({
-                    action: "ONLINE",
-                });
-            }
+            console.log("[Session] Document visible.");
+            this.emit({ action: "ONLINE" });
         } else {
             console.log("[Session] Document hidden.");
-            this.emit({
-                action: "OFFLINE",
-            });
+            this.emit({ action: "OFFLINE" });
         }
     }
 
@@ -201,7 +185,7 @@ export default class Session {
      * @param data Transition Data
      */
     @action async emit(data: Transition) {
-        console.info(`[FSM ${this.user_id ?? "Anonymous"}]`, data);
+        console.info(`[FSM ${this.user_id ?? "Anonymous"}]`, JSON.stringify(data));
 
         switch (data.action) {
             // Login with session
@@ -245,10 +229,14 @@ export default class Session {
             case "SUCCESS": {
                 // this.assert("Connecting");
                 this.state = "Online";
+                this.client?.unreads?.sync().then(() => {
+                    console.log("[Session] Unreads synced.");
+                })
                 break;
             }
             // Client got disconnected
             case "DISCONNECT": {
+                if (this.state === "Offline") break;
                 // if (navigator.onLine) {
                 // this.assert("Online");
                 this.state = "Disconnected";

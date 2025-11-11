@@ -11,9 +11,9 @@ import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
 import ErrorBoundary from "../../lib/ErrorBoundary";
+import { trackChannelOpen, trackChannelClose } from "../../lib/channelTracking";
 import { internalSubscribe } from "../../lib/eventEmitter";
 import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
-import { trackChannelOpen, trackChannelClose } from "../../lib/channelTracking";
 
 import { useApplicationState } from "../../mobx/State";
 import { SIDEBAR_MEMBERS } from "../../mobx/stores/Layout";
@@ -30,7 +30,9 @@ import ChannelHeader from "./ChannelHeader";
 import { MessageArea } from "./messaging/MessageArea";
 import VoiceHeader from "./voice/VoiceHeader";
 
-const ChannelMain = styled.div.attrs({ "data-component": "channel" })<{ adjusted?: boolean }>`
+const ChannelMain = styled.div.attrs({ "data-component": "channel" })<{
+    adjusted?: boolean;
+}>`
     flex-grow: 1;
     display: flex;
     min-height: 0;
@@ -205,7 +207,7 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
             if (document.hasFocus()) {
                 if (
                     !lastSubscribed ||
-                    dayjs().subtract(10, "minutes").isAfter(lastSubscribed)
+                    dayjs().subtract(1, "minutes").isAfter(lastSubscribed)
                 ) {
                     lastSubscribed = +new Date();
                     channel.server?.subscribe();
@@ -213,8 +215,8 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
             }
         }
 
-        // Trigger logic every minute
-        const subTimer = setInterval(subscribe, 60e3);
+        // Trigger logic every 30 seconds
+        const subTimer = setInterval(subscribe, 30e3);
         subscribe();
 
         function onFocus() {
@@ -235,10 +237,27 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
             subscribe();
         }
 
+        function onVisibilityChange() {
+            if (document.visibilityState === "visible") {
+                trackChannelOpen(channel._id);
+
+                channel.client.unreads!.markRead(
+                    channel._id,
+                    undefined,
+                    true,
+                    true,
+                );
+
+                subscribe();
+            }
+        }
+
         addEventListener("focus", onFocus);
+        addEventListener("visibilitychange", onVisibilityChange);
 
         return () => {
             removeEventListener("focus", onFocus);
+            removeEventListener("visibilitychange", onVisibilityChange);
             clearInterval(subTimer);
         };
     }, [channel]);

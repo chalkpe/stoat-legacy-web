@@ -87,21 +87,21 @@ export default observer(() => {
                         );
                         e.preventDefault();
                     } else {
-                        if (entry.unread && entry.last_message_id) {
-                            entry.ack(entry.last_message_id, true);
-                            setTimeout(() => {
-                                client.unreads!.markRead(
-                                    entry._id,
-                                    entry.last_message_id!,
-                                    true,
-                                    true,
-                                );
-                            }, 1000);
-                        }
-                        
+                        client.unreads!.markRead(
+                            entry._id,
+                            undefined,
+                            true,
+                            true,
+                        );
+
                         if (isTouchscreenDevice) {
-                            const panels = document.querySelector("#app > div > div > div");
-                            panels?.scrollTo({ behavior: "smooth", left: panels.clientWidth });
+                            const panels = document.querySelector(
+                                "#app > div > div > div",
+                            );
+                            panels?.scrollTo({
+                                behavior: "smooth",
+                                left: panels.clientWidth,
+                            });
                         }
                     }
                 }}

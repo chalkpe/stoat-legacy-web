@@ -69,7 +69,6 @@ export default observer(() => {
         }
     };
 
-
     channels.sort((b, a) =>
         a.last_message_id_or_past.localeCompare(b.last_message_id_or_past),
     );
@@ -86,7 +85,10 @@ export default observer(() => {
             </Navbar>
             <ConnectionStatus />
             <GenericSidebarList>
-                <ConditionalLink active={pathname === "/"} to="/" onClick={scrollToPanel}>
+                <ConditionalLink
+                    active={pathname === "/"}
+                    to="/"
+                    onClick={scrollToPanel}>
                     <ButtonItem active={pathname === "/"}>
                         <Home size={20} />
                         <span>
@@ -100,9 +102,7 @@ export default observer(() => {
                     to="/friends">
                     <ButtonItem
                         active={pathname === "/friends"}
-                        alert={
-                            incoming.length > 0 ? "mention" : undefined
-                        }
+                        alert={incoming.length > 0 ? "mention" : undefined}
                         alertCount={incoming.length}>
                         <UserDetail size={20} />
                         <span>
@@ -122,7 +122,10 @@ export default observer(() => {
                         </span>
                     </ButtonItem>
                 </ConditionalLink>
-                <ConditionalLink active={pathname === "/settings"} to="/settings" onClick={scrollToPanel}>
+                <ConditionalLink
+                    active={pathname === "/settings"}
+                    to="/settings"
+                    onClick={scrollToPanel}>
                     <ButtonItem active={pathname === "/settings"}>
                         <Cog size={20} />
                         <span>
@@ -171,17 +174,12 @@ export default observer(() => {
                     return (
                         <ConditionalLink
                             onClick={() => {
-                                if (channel.unread && channel.last_message_id) {
-                                    channel.ack(channel.last_message_id, true);
-                                    setTimeout(() => {
-                                        client.unreads!.markRead(
-                                            channel._id,
-                                            channel.last_message_id!,
-                                            true,
-                                            true,
-                                        );
-                                    }, 1000);
-                                }
+                                client.unreads!.markRead(
+                                    channel._id,
+                                    undefined,
+                                    true,
+                                    true,
+                                );
                                 scrollToPanel();
                             }}
                             key={channel._id}

@@ -185,11 +185,10 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
         );
 
         const checkUnread = () =>
-            channel.unread &&
             document.hasFocus() &&
             channel.client.unreads!.markRead(
                 channel._id,
-                channel.last_message_id!,
+                undefined,
                 true,
                 true,
             );
@@ -221,14 +220,13 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
 
         function onFocus() {
             // Mark channel as read if it's unread
-            if (channel.unread) {
-                channel.client.unreads!.markRead(
-                    channel._id,
-                    channel.last_message_id!,
-                    true,
-                    true,
-                );
-            }
+            channel.client.unreads!.markRead(
+                channel._id,
+                undefined,
+                true,
+                true,
+            );
+        
 
             // Track channel open event
             trackChannelOpen(channel._id);

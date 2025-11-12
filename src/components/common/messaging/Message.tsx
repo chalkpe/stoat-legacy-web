@@ -92,8 +92,26 @@ const Message = observer(
         const [reactionsOpen, setReactionsOpen] = useState(false);
         useEffect(() => setAnimate(false), [replacement]);
 
+        const [lastTap, setLastTap] = useState(0);
+        function replyToMessage() {
+            internalEmit("ReplyBar", "add", message);
+        }
+        function handleTouchEnd(e: TouchEvent) {
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTap;
+            if (tapLength < 500 && tapLength > 0) {
+                replyToMessage();
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            setLastTap(currentTime);
+        }
+
         return (
-            <div id={message._id}>
+            <div
+                id={message._id}
+                onDblClick={replyToMessage}
+                onTouchEnd={handleTouchEnd}>
                 {!hideReply &&
                     message.reply_ids?.map((message_id, index) => (
                         <MessageReply

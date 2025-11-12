@@ -3,7 +3,7 @@ import { Message as MessageObject } from "revolt.js";
 
 import { useTriggerEvents } from "preact-context-menu";
 import { memo } from "preact/compat";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 
 import { Category } from "@revoltchat/ui";
 
@@ -92,25 +92,51 @@ const Message = observer(
         const [reactionsOpen, setReactionsOpen] = useState(false);
         useEffect(() => setAnimate(false), [replacement]);
 
-        const [lastTap, setLastTap] = useState(0);
+        const touchStartRef = useRef({ x: 0, y: 0, time: 0 });
+        const touchEndRef = useRef({ time: 0, count: 0 });
+
         function replyToMessage() {
             internalEmit("ReplyBar", "add", message);
         }
+
+        function handleTouchStart(e: TouchEvent) {
+            touchStartRef.current = {
+                x: e.touches[0].clientX,
+                y: e.touches[0].clientY,
+                time: Date.now(),
+            };
+        }
         function handleTouchEnd(e: TouchEvent) {
-            const currentTime = new Date().getTime();
-            const tapLength = currentTime - lastTap;
-            if (tapLength < 500 && tapLength > 0) {
-                replyToMessage();
-                e.preventDefault();
-                e.stopPropagation();
+            const time = Date.now();
+            const [x, y] = [
+                e.changedTouches[0].clientX,
+                e.changedTouches[0].clientY,
+            ];
+            const [dx, dy] = [
+                Math.abs(x - touchStartRef.current.x),
+                Math.abs(y - touchStartRef.current.y),
+            ];
+            if (dx < 30 && dy < 30 && time - touchStartRef.current.time < 500) {
+                if (time - touchEndRef.current.time < 400) {
+                    touchEndRef.current.count += 1;
+                } else {
+                    touchEndRef.current.count = 1;
+                }
+                touchEndRef.current.time = time;
+                if (touchEndRef.current.count > 1) {
+                    replyToMessage();
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            } else {
+                touchStartRef.current = { x: 0, y: 0, time: 0 };
             }
-            setLastTap(currentTime);
         }
 
         return (
             <div
                 id={message._id}
-                onDblClick={replyToMessage}
+                onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}>
                 {!hideReply &&
                     message.reply_ids?.map((message_id, index) => (

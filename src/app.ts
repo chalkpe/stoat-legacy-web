@@ -9,10 +9,19 @@ function scrollToPanel() {
     panels?.scrollTo({ behavior: "smooth", left: panels.clientWidth });
 }
 
+function markReadOpenChannel(url: string) {
+    const client = clientController.getReadyClient();
+    if (!client) return;
+
+    const match = url.match(/\/channel\/(.+)$/);
+    if (match) client.unreads!.markRead(match[1], undefined, true, true);
+}
+
 window.ToastApp = {
     open(url: string) {
         history.push(url);
         scrollToPanel();
+        markReadOpenChannel(url);
         console.info("[ToastApp] Navigated to:", url);
     },
     subscribePush: async () => false,

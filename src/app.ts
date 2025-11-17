@@ -26,6 +26,23 @@ window.ToastApp = {
     },
     subscribePush: async () => false,
     unsubscribePush: async () => false,
+    handleOnBackPressed() {
+        console.info("[ToastApp] Back pressed");
+
+        const e = new CustomEvent("toast:onbackpressed", { cancelable: true });
+        if (!window.dispatchEvent(e)) return;
+
+        const panels = document.querySelector("#app > div > div > div");
+        panels?.scrollTo({
+            behavior: "smooth",
+            left:
+                panels.scrollLeft > panels.clientWidth
+                    ? panels.clientWidth
+                    : panels.scrollLeft > 0
+                    ? 0
+                    : panels.clientWidth,
+        });
+    },
 };
 
 function initializeToastAppPushFeatures() {

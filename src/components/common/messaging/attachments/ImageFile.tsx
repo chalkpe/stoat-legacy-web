@@ -36,16 +36,18 @@ function ImageFile({ attachment, ...props }: Props) {
     const ref = useRef<LG | null>(null);
 
     useEffect(() => {
-        const handlePopState = () => {
-            if (ref.current?.lgOpened) ref.current?.closeGallery();
+        const onBackPressed = (e: Event) => {
+            if (ref.current?.lgOpened) {
+                e.preventDefault();
+                ref.current?.closeGallery();
+            }
         };
-        window.addEventListener('popstate', handlePopState);
-        return () => window.removeEventListener('popstate', handlePopState);
+        window.addEventListener('toast:onbackpressed', onBackPressed);
+        return () => window.removeEventListener('toast:onbackpressed', onBackPressed);
     }, []);
 
     const handleOpenGallery = () => {
         ref.current?.openGallery();
-        window.history.pushState(null, '');
     };
 
     return (

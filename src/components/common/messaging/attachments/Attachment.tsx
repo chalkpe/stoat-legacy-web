@@ -44,7 +44,8 @@ export default function Attachment({ attachment, hasContent }: Props) {
                         spoiler,
                     })}>
                     <ImageFile
-                        attachment={attachment}
+                        url={client.generateFileURL(attachment)!}
+                        filename={attachment.filename}
                         width={metadata.width}
                         height={metadata.height}
                     />

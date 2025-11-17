@@ -1,23 +1,17 @@
-import { API } from "revolt.js";
-
-import LightGallery from 'lightgallery/react';
-import lgRotate from 'lightgallery/plugins/rotate';
-import lgVideo from 'lightgallery/plugins/video';
-import lgZoom from 'lightgallery/plugins/zoom';
 import type { LightGallery as LG } from "lightgallery/lightgallery";
-
-import 'lightgallery/scss/lightgallery.scss';
-import 'lightgallery/scss/lg-rotate.scss';
-import 'lightgallery/scss/lg-video.scss';
-import 'lightgallery/scss/lg-zoom.scss';
+import lgRotate from "lightgallery/plugins/rotate";
+import lgVideo from "lightgallery/plugins/video";
+import lgZoom from "lightgallery/plugins/zoom";
+import LightGallery from "lightgallery/react";
 
 import styles from "./Attachment.module.scss";
 import classNames from "classnames";
-
+import "lightgallery/scss/lg-rotate.scss";
+import "lightgallery/scss/lg-video.scss";
+import "lightgallery/scss/lg-zoom.scss";
+import "lightgallery/scss/lightgallery.scss";
 import { memo } from "preact/compat";
 import { useRef, useState, useEffect } from "preact/hooks";
-
-import { useClient } from "../../../../controllers/client/ClientController";
 
 enum ImageLoadingState {
     Loading,
@@ -26,14 +20,13 @@ enum ImageLoadingState {
 }
 
 type Props = JSX.HTMLAttributes<HTMLImageElement> & {
-    attachment: API.File;
+    url: string;
+    filename: string;
 };
 
-function ImageFile({ attachment, ...props }: Props) {
-    const [loading, setLoading] = useState(ImageLoadingState.Loading);
-    const client = useClient();
-    const url = client.generateFileURL(attachment)!;
+function ImageFile({ url, filename, open, ...props }: Props) {
     const ref = useRef<LG | null>(null);
+    const [loading, setLoading] = useState(ImageLoadingState.Loading);
 
     useEffect(() => {
         const onBackPressed = (e: Event) => {
@@ -42,8 +35,9 @@ function ImageFile({ attachment, ...props }: Props) {
                 ref.current?.closeGallery();
             }
         };
-        window.addEventListener('toast:onbackpressed', onBackPressed);
-        return () => window.removeEventListener('toast:onbackpressed', onBackPressed);
+        window.addEventListener("toast:onbackpressed", onBackPressed);
+        return () =>
+            window.removeEventListener("toast:onbackpressed", onBackPressed);
     }, []);
 
     const handleOpenGallery = () => {
@@ -51,24 +45,33 @@ function ImageFile({ attachment, ...props }: Props) {
     };
 
     return (
-        <LightGallery 
+        <LightGallery
+            elementClassNames={styles.lightgallery}
             licenseKey="GPLv3"
             plugins={[lgRotate, lgVideo, lgZoom]}
-            onInit={({ instance }) => ref.current = instance}
+            onInit={({ instance }) => {
+                ref.current = instance;
+                if (open) {
+                    instance.openGallery();
+                }
+            }}
             counter={false}
             dynamic
-            dynamicEl={[{ src: url, thumb: url, subHtml: `<h4>${attachment.filename}</h4>` }]}
-        > 
+            dynamicEl={[
+                { src: url, thumb: url, subHtml: `<h4>${filename}</h4>` },
+            ]}>
             <img
                 {...props}
                 src={url}
-                alt={attachment.filename}
+                alt={filename}
                 loading="lazy"
                 className={classNames(styles.image, {
                     [styles.loading]: loading !== ImageLoadingState.Loaded,
                 })}
                 onClick={handleOpenGallery}
-                onMouseDown={(ev) => ev.button === 1 && window.open(url, "_blank")}
+                onMouseDown={(ev) =>
+                    ev.button === 1 && window.open(url, "_blank")
+                }
                 onLoad={() => setLoading(ImageLoadingState.Loaded)}
                 onError={() => setLoading(ImageLoadingState.Error)}
             />

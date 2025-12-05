@@ -4,7 +4,7 @@ import styles from "./Panes.module.scss";
 import { Text } from "preact-i18n";
 import { useEffect, useState } from "preact/hooks";
 
-import { Checkbox, Column } from "@revoltchat/ui";
+import { Button, Checkbox, Column } from "@revoltchat/ui";
 
 import { urlBase64ToUint8Array } from "../../../lib/conversion";
 
@@ -36,7 +36,19 @@ export const Notifications = observer(() => {
                 <Text id="app.settings.pages.notifications.push_notifications" />
             </h3>
             <Column>
-                <Checkbox
+                <Button
+                    palette="secondary"
+                    onClick={() =>
+                        client.api.post("/push/unsubscribe").then(() => {
+                            modalController.push({
+                                type: "error",
+                                error: "오류는 일부러 발생시켰어요. 앱을 완전히 종료한 후에 다시 실행해 주세요.",
+                            });
+                        })
+                    }>
+                    중복 알림 고치기
+                </Button>
+                {!window.ToastApp && <Checkbox
                     disabled={!("Notification" in window)}
                     value={settings.get("notifications:desktop", false)!}
                     title={
@@ -60,8 +72,8 @@ export const Notifications = observer(() => {
 
                         settings.set("notifications:desktop", desktopEnabled);
                     }}
-                />
-                {!window.native && (
+                />}
+                {!window.native && !window.ToastApp && (
                     <Checkbox
                         disabled={typeof pushEnabled === "undefined"}
                         value={pushEnabled ?? false}

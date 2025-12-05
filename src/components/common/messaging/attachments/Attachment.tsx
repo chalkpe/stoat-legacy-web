@@ -15,11 +15,14 @@ import TextFile from "./TextFile";
 interface Props {
     attachment: API.File;
     hasContent?: boolean;
+    channelId?: string;
+    messageId?: string;
+    messageAttachments?: API.File[];
 }
 
 const MAX_ATTACHMENT_WIDTH = 480;
 
-export default function Attachment({ attachment, hasContent }: Props) {
+export default function Attachment({ attachment, hasContent, channelId, messageId, messageAttachments }: Props) {
     const client = useClient();
     const { filename, metadata } = attachment;
     const [spoiler, setSpoiler] = useState(filename.startsWith("SPOILER_"));
@@ -48,6 +51,10 @@ export default function Attachment({ attachment, hasContent }: Props) {
                         filename={attachment.filename}
                         width={metadata.width}
                         height={metadata.height}
+                        channelId={channelId}
+                        messageId={messageId}
+                        messageAttachments={messageAttachments}
+                        generateFileURL={(att) => client.generateFileURL(att as API.File)!}
                     />
                     {spoiler && <Spoiler set={setSpoiler} />}
                 </SizedGrid>

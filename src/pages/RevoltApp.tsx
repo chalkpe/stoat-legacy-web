@@ -10,6 +10,7 @@ import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
 import { Titlebar } from "../components/native/Titlebar";
 import LeftSidebar from "../components/navigation/LeftSidebar";
 import RightSidebar from "../components/navigation/RightSidebar";
+import { GalleryProvider } from "../context/GalleryContext";
 import { useSystemAlert } from "../updateWorker";
 import Open from "./Open";
 import Channel from "./channels/Channel";
@@ -100,7 +101,7 @@ export default function App() {
     useEffect(() => setStatusBar(true), [alert]);
 
     return (
-        <>
+        <GalleryProvider>
             {alert && statusBar && (
                 <StatusBar>
                     <div className="title">{alert.text}</div>
@@ -213,6 +214,6 @@ export default function App() {
                     <ContextMenus />
                 </OverlappingPanels>
             </AppContainer>
-        </>
+        </GalleryProvider>
     );
 }

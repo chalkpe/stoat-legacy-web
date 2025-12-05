@@ -224,6 +224,9 @@ const Message = observer(
                                     index > 0 ||
                                     (content ? content.length > 0 : false)
                                 }
+                                channelId={message.channel_id}
+                                messageId={message._id}
+                                messageAttachments={message.attachments ?? undefined}
                             />
                         ))}
                         {replacement ??

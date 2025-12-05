@@ -6,7 +6,7 @@ import { RendererRoutines } from "../types";
 export const SimpleRenderer: RendererRoutines = {
     init: async (renderer, nearby, smooth) => {
         if (renderer.channel.client.websocket.connected) {
-            if (nearby)
+            if (nearby) {
                 renderer.channel
                     .fetchMessagesWithUsers({ nearby, limit: 100 })
                     .then(({ messages }) => {
@@ -24,7 +24,7 @@ export const SimpleRenderer: RendererRoutines = {
                             });
                         });
                     });
-            else
+            } else {
                 renderer.channel
                     .fetchMessagesWithUsers({})
                     .then(({ messages }) => {
@@ -42,6 +42,7 @@ export const SimpleRenderer: RendererRoutines = {
                             });
                         });
                     });
+            }
         } else {
             runInAction(() => {
                 renderer.state = "WAITING_FOR_NETWORK";
@@ -98,8 +99,8 @@ export const SimpleRenderer: RendererRoutines = {
         if (renderer.state !== "RENDER") return true;
         if (renderer.atTop) return true;
 
-        const { messages: data } =
-            await renderer.channel.fetchMessagesWithUsers({
+        const { messages: data } = await renderer.channel
+            .fetchMessagesWithUsers({
                 before: renderer.messages[0]._id,
             });
 
@@ -116,16 +117,18 @@ export const SimpleRenderer: RendererRoutines = {
                 renderer.atTop = true;
             }
 
+            const scrollState = renderer.messages.length > 150
+                ? generateScroll(renderer.messages[150]._id)
+                : generateScroll(
+                    renderer.messages[renderer.messages.length - 1]._id,
+                );
+
             if (renderer.messages.length > 150) {
                 renderer.messages = renderer.messages.slice(0, 150);
                 renderer.atBottom = false;
             }
 
-            renderer.emitScroll(
-                generateScroll(
-                    renderer.messages[renderer.messages.length - 1]._id,
-                ),
-            );
+            renderer.emitScroll(scrollState);
         });
     },
     loadBottom: async (renderer, generateScroll) => {
@@ -135,8 +138,8 @@ export const SimpleRenderer: RendererRoutines = {
         if (renderer.state !== "RENDER") return true;
         if (renderer.atBottom) return true;
 
-        const { messages: data } =
-            await renderer.channel.fetchMessagesWithUsers({
+        const { messages: data } = await renderer.channel
+            .fetchMessagesWithUsers({
                 after: renderer.messages[renderer.messages.length - 1]._id,
                 sort: "Oldest",
             });

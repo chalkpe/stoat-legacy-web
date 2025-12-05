@@ -18,6 +18,7 @@ function markReadOpenChannel(url: string) {
 }
 
 window.ToastApp = {
+    clientReady: false,
     open(url: string) {
         history.push(url);
         scrollToPanel();
@@ -48,6 +49,8 @@ window.ToastApp = {
 function initializeToastAppPushFeatures() {
     const client = clientController.getReadyClient();
     if (!client) return;
+
+    window.ToastApp.clientReady = true;
 
     window.ToastApp.subscribePush = async (payload) => {
         return await client.api

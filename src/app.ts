@@ -9,12 +9,24 @@ function scrollToPanel() {
     panels?.scrollTo({ behavior: "smooth", left: panels.clientWidth });
 }
 
-function markReadOpenChannel(url: string) {
-    const client = clientController.getReadyClient();
-    if (!client) return;
+async function markReadOpenChannel(url: string) {
+    const match = url.match(/\/channel\/([A-Z0-9]{26})/);
+    if (!match) return;
 
-    const match = url.match(/\/channel\/(.+)$/);
-    if (match) client.unreads!.markRead(match[1], undefined, true, true);
+    const channelId = match[1];
+    
+    let attempts = 0;
+    while (attempts < 20) {
+        const client = clientController.getReadyClient();
+        if (client) {
+            client.unreads!.markRead(channelId, undefined, true, true);
+            return;
+        }
+        await new Promise(resolve => setTimeout(resolve, 500));
+        attempts++;
+    }
+    
+    console.warn("[ToastApp] Failed to mark channel as read: client not ready after timeout");
 }
 
 window.ToastApp = {

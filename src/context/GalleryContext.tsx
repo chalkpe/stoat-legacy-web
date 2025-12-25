@@ -21,6 +21,7 @@ interface GalleryImage {
     thumb: string;
     subHtml: string;
     messageId: string;
+    download: string;
 }
 
 interface Attachment {
@@ -107,6 +108,7 @@ export function GalleryProvider({ children }: GalleryProviderProps) {
                     thumb: `${client.configuration?.features.autumn.url}/attachments/${att._id}`,
                     subHtml: `<h4>${att.filename}</h4>`,
                     messageId: att.message_id,
+                    download: att.filename,
                 }));
             } catch (e) {
                 console.error("Failed to fetch attachments:", e);
@@ -295,6 +297,7 @@ export function GalleryProvider({ children }: GalleryProviderProps) {
                         thumb: url,
                         subHtml: `<h4>${att.filename}</h4>`,
                         messageId,
+                        download: att.filename,
                     };
                 });
 
@@ -308,6 +311,7 @@ export function GalleryProvider({ children }: GalleryProviderProps) {
                     thumb: imageUrl,
                     subHtml: `<h4>${filename}</h4>`,
                     messageId,
+                    download: filename,
                 }];
             }
 

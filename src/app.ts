@@ -39,6 +39,13 @@ window.ToastApp = {
     },
     subscribePush: async () => false,
     unsubscribePush: async () => false,
+    getSessionToken() {
+        const client = clientController.getReadyClient();
+        if (!client) return null;
+        return typeof client.session === "string"
+            ? client.session
+            : client.session?.token ?? null;
+    },
     handleOnBackPressed() {
         console.info("[ToastApp] Back pressed");
 

@@ -5,5 +5,6 @@ declare interface Window {
     unsubscribePush(): Promise<boolean>;
     open(url: string): void;
     handleOnBackPressed(): void;
+    getSessionToken(): string | null;
   };
 }

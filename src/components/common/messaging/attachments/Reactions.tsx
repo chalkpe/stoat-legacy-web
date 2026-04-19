@@ -65,8 +65,8 @@ const Reaction = styled.div<{ active: boolean }>`
     background: var(--secondary-background);
 
     img {
-        width: 1.2em;
-        height: 1.2em;
+        width: 1.4em;
+        height: 1.4em;
         object-fit: contain;
     }
 

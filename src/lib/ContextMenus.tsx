@@ -9,6 +9,9 @@ import { Channel, Message, Server, User, API, Permission, UserPermission, Member
 import { ContextMenuWithData, MenuItem, openContextMenu } from "preact-context-menu";
 import { Text } from "preact-i18n";
 
+import { createPortal } from "preact/compat";
+import { useState } from "preact/hooks";
+
 
 
 import { Column, IconButton, LineDivider } from "@revoltchat/ui";
@@ -25,6 +28,8 @@ import CMNotifications from "./contextmenu/CMNotifications";
 
 
 
+import { emojiDictionary } from "../assets/emojis";
+import { HackAlertThisFileWillBeReplaced } from "../components/common/messaging/MessageBox";
 import Tooltip from "../components/common/Tooltip";
 import UserStatus from "../components/common/user/UserStatus";
 import { useSession } from "../controllers/client/ClientController";
@@ -32,6 +37,29 @@ import { takeError } from "../controllers/client/jsx/error";
 import { modalController } from "../controllers/modals/ModalController";
 import { internalEmit } from "./eventEmitter";
 import { getRenderer } from "./renderer/Singleton";
+
+function MessageReactionPicker({
+    message,
+    onClose,
+}: {
+    message: Message;
+    onClose: () => void;
+}) {
+    return createPortal(
+        <HackAlertThisFileWillBeReplaced
+            onSelect={(emoji) => {
+                message.react(
+                    emojiDictionary[
+                        emoji as keyof typeof emojiDictionary
+                    ] ?? emoji,
+                );
+                onClose();
+            }}
+            onClose={onClose}
+        />,
+        document.body,
+    );
+}
 
 
 interface ContextMenuData {
@@ -62,6 +90,7 @@ type Action =
     | { action: "cancel_message"; message: QueuedMessage }
     | { action: "mention"; user: string }
     | { action: "reply_message"; target: Message }
+    | { action: "react_message"; target: Message }
     | { action: "quote_message"; content: string }
     | { action: "edit_message"; id: string }
     | { action: "delete_message"; target: Message }
@@ -124,6 +153,7 @@ export default function ContextMenus() {
     const state = useApplicationState();
     const history = useHistory();
     const isOnline = session?.state === "Online";
+    const [reactionTarget, setReactionTarget] = useState<Message | null>(null);
 
     if (!client) return null;
 
@@ -250,6 +280,12 @@ export default function ContextMenus() {
                 case "reply_message":
                     {
                         internalEmit("ReplyBar", "add", data.target);
+                    }
+                    break;
+
+                case "react_message":
+                    {
+                        setReactionTarget(data.target);
                     }
                     break;
 
@@ -806,10 +842,20 @@ export default function ContextMenus() {
                             });
                         }
 
-                        generateAction({
-                            action: "mark_unread",
-                            message,
-                        });
+                        if (message.channel?.havePermission("React")) {
+                            lastDivider = false;
+                            elements.push(
+                                <MenuItem
+                                    data={{
+                                        action: "react_message",
+                                        target: message,
+                                    }}>
+                                    <span>반응하기</span>
+                                </MenuItem>,
+                            );
+                        }
+
+                        pushDivider();
 
                         if (
                             typeof message.content === "string" &&
@@ -1289,6 +1335,12 @@ export default function ContextMenus() {
                 }}
             </ContextMenuWithData>
             <CMNotifications />
+            {reactionTarget && (
+                <MessageReactionPicker
+                    message={reactionTarget}
+                    onClose={() => setReactionTarget(null)}
+                />
+            )}
         </>
     );
 }

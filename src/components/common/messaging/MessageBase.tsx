@@ -6,7 +6,6 @@ import { decodeTime } from "ulid";
 import { Text } from "preact-i18n";
 
 import { useDictionary } from "../../../lib/i18n";
-import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { dayjs } from "../../../context/Locale";
 
@@ -35,11 +34,7 @@ export default styled.div<BaseMessageProps>`
     flex-direction: row;
     padding-inline-end: 16px;
 
-    ${() =>
-        isTouchscreenDevice &&
-        css`
-            user-select: none;
-        `}
+    user-select: none;
 
     ${(props) =>
         props.contrast &&

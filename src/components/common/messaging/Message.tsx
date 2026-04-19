@@ -8,7 +8,6 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import { Category } from "@revoltchat/ui";
 
 import { internalEmit } from "../../../lib/eventEmitter";
-import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { QueuedMessage } from "../../../mobx/stores/MessageQueue";
 
@@ -26,7 +25,6 @@ import MessageBase, {
 import Attachment from "./attachments/Attachment";
 import { MessageReply } from "./attachments/MessageReply";
 import { Reactions } from "./attachments/Reactions";
-import { MessageOverlayBar } from "./bars/MessageOverlayBar";
 import Embed from "./embed/Embed";
 import InviteList from "./embed/EmbedInvite";
 
@@ -89,7 +87,6 @@ const Message = observer(
 
         // ! FIXME(?): animate on hover
         const [mouseHovering, setAnimate] = useState(false);
-        const [reactionsOpen, setReactionsOpen] = useState(false);
         useEffect(() => setAnimate(false), [replacement]);
 
         const touchStartRef = useRef({ x: 0, y: 0, time: 0 });
@@ -241,16 +238,6 @@ const Message = observer(
                             <Embed key={index} embed={embed} />
                         ))}
                         <Reactions message={message} />
-                        {(mouseHovering || reactionsOpen) &&
-                            !replacement &&
-                            !isTouchscreenDevice && (
-                                <MessageOverlayBar
-                                    reactionsOpen={reactionsOpen}
-                                    setReactionsOpen={setReactionsOpen}
-                                    message={message}
-                                    queued={queued}
-                                />
-                            )}
                     </MessageContent>
                 </MessageBase>
             </div>

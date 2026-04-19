@@ -9,8 +9,6 @@ import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 
 import { Category, Header, IconButton, LineDivider } from "@revoltchat/ui";
 
-import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
-
 import { useApplicationState } from "../../mobx/State";
 
 import ButtonItem from "../../components/navigation/items/ButtonItem";
@@ -80,55 +78,47 @@ export function GenericSettings({
                 [styles.closing]: closing,
                 [styles.native]: window.isNative,
             })}
-            data-mobile={isTouchscreenDevice}>
+            data-mobile={true}>
             <Helmet>
                 <meta
                     name="theme-color"
-                    content={
-                        isTouchscreenDevice
-                            ? theme.getVariable("background")
-                            : theme.getVariable("secondary-background")
-                    }
+                    content={theme.getVariable("background")}
                 />
             </Helmet>
-            {isTouchscreenDevice && (
-                <Header palette="primary" withTransparency>
-                    {typeof page === "undefined" ? (
-                        <>
-                            {showExitButton && (
-                                <IconButton onClick={exitSettings}>
-                                    <X
-                                        size={27}
-                                        style={{ marginInlineEnd: "8px" }}
-                                    />
-                                </IconButton>
-                            )}
-                            <Text id="app.settings.title" />
-                        </>
-                    ) : (
-                        <>
-                            <IconButton onClick={() => switchPage()}>
-                                <ArrowBack
-                                    size={24}
-                                    style={{ marginInlineEnd: "10px" }}
+            <Header palette="primary" withTransparency>
+                {typeof page === "undefined" ? (
+                    <>
+                        {showExitButton && (
+                            <IconButton onClick={exitSettings}>
+                                <X
+                                    size={27}
+                                    style={{ marginInlineEnd: "8px" }}
                                 />
                             </IconButton>
-                            <Text
-                                id={`app.settings.${category}.${page}.title`}
+                        )}
+                        <Text id="app.settings.title" />
+                    </>
+                ) : (
+                    <>
+                        <IconButton onClick={() => switchPage()}>
+                            <ArrowBack
+                                size={24}
+                                style={{ marginInlineEnd: "10px" }}
                             />
-                        </>
-                    )}
-                </Header>
-            )}
-            {(!isTouchscreenDevice || typeof page === "undefined") && (
+                        </IconButton>
+                        <Text
+                            id={`app.settings.${category}.${page}.title`}
+                        />
+                    </>
+                )}
+            </Header>
+            {typeof page === "undefined" && (
                 <div className={styles.sidebar}>
                     <div
                         className={styles.scrollbox}
-                        data-scroll-offset={
-                            isTouchscreenDevice ? "with-padding" : undefined
-                        }>
+                        data-scroll-offset="with-padding">
                         <div className={styles.container}>
-                            {isTouchscreenDevice && indexHeader}
+                            {indexHeader}
                             {pages.map((entry, i) =>
                                 entry.hidden ? undefined : (
                                     <>
@@ -138,12 +128,7 @@ export function GenericSettings({
                                             </Category>
                                         )}
                                         <ButtonItem
-                                            active={
-                                                page === entry.id ||
-                                                (i === 0 &&
-                                                    !isTouchscreenDevice &&
-                                                    typeof page === "undefined")
-                                            }
+                                            active={page === entry.id}
                                             onClick={() => switchPage(entry.id)}
                                             compact>
                                             {entry.icon} {entry.title}
@@ -159,13 +144,11 @@ export function GenericSettings({
                     </div>
                 </div>
             )}
-            {(!isTouchscreenDevice || typeof page === "string") && (
+            {typeof page === "string" && (
                 <div className={styles.content}>
                     <div
                         className={styles.scrollbox}
-                        data-scroll-offset={
-                            isTouchscreenDevice ? "with-padding" : undefined
-                        }
+                        data-scroll-offset="with-padding"
                         ref={(ref) => {
                             // Force scroll to top if page changes.
                             if (ref) {
@@ -176,29 +159,8 @@ export function GenericSettings({
                             }
                         }}>
                         <div className={styles.contentcontainer}>
-                            {!isTouchscreenDevice &&
-                                !pages.find(
-                                    (x) => x.id === page && x.hideTitle,
-                                ) && (
-                                    <h1>
-                                        <Text
-                                            id={`app.settings.${category}.${
-                                                page ?? defaultPage
-                                            }.title`}
-                                        />
-                                    </h1>
-                                )}
                             {children}
                         </div>
-                        {!isTouchscreenDevice && (
-                            <div className={styles.action}>
-                                <div
-                                    onClick={exitSettings}
-                                    className={styles.closeButton}>
-                                    <X size={28} />
-                                </div>
-                            </div>
-                        )}
                     </div>
                 </div>
             )}

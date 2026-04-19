@@ -1,15 +1,11 @@
-import { Cog } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
-import { Link } from "react-router-dom";
 import { User } from "revolt.js";
 import styled from "styled-components/macro";
 
 import { openContextMenu } from "preact-context-menu";
 import { Text, Localizer } from "preact-i18n";
 
-import { Header, IconButton } from "@revoltchat/ui";
-
-import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
+import { Header } from "@revoltchat/ui";
 
 import { modalController } from "../../../controllers/modals/ModalController";
 import Tooltip from "../Tooltip";
@@ -77,15 +73,6 @@ export default observer(({ user }: Props) => {
                     <UserStatus user={user} />
                 </span>
             </HeaderBase>
-            {!isTouchscreenDevice && (
-                <div className="actions">
-                    <Link to="/settings">
-                        <IconButton>
-                            <Cog size={24} />
-                        </IconButton>
-                    </Link>
-                </div>
-            )}
         </Header>
     );
 });

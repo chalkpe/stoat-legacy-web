@@ -16,7 +16,6 @@ import { debounce } from "../../../lib/debounce";
 import { defer } from "../../../lib/defer";
 import { internalEmit, internalSubscribe } from "../../../lib/eventEmitter";
 import { useTranslation } from "../../../lib/i18n";
-import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import {
     getRenderer,
     SMOOTH_SCROLL_ON_RECEIVE,
@@ -115,14 +114,6 @@ const Action = styled.div`
     .mobile {
         width: 62px;
     }
-
-    ${() =>
-        !isTouchscreenDevice &&
-        css`
-            .mobile {
-                display: none;
-            }
-        `}
 `;
 
 const FileAction = styled.div`
@@ -716,17 +707,6 @@ export default observer(({ channel }: Props) => {
                             e.preventDefault();
                             internalEmit("MessageRenderer", "edit_last");
                             return;
-                        }
-
-                        if (
-                            !e.shiftKey &&
-                            !e.isComposing &&
-                            e.key === "Enter" &&
-                            !isTouchscreenDevice &&
-                            !isInCodeBlock(e.currentTarget.selectionStart)
-                        ) {
-                            e.preventDefault();
-                            return send();
                         }
 
                         if (e.key === "Escape") {

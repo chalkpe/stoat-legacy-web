@@ -9,17 +9,13 @@ import {
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
-import styled, { css } from "styled-components/macro";
+import styled from "styled-components/macro";
 
 import { IconButton } from "@revoltchat/ui";
 
 import { chainedDefer, defer } from "../../../lib/defer";
 import { internalEmit } from "../../../lib/eventEmitter";
-import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 import { voiceState, VoiceStatus } from "../../../lib/vortex/VoiceState";
-
-import { useApplicationState } from "../../../mobx/State";
-import { SIDEBAR_MEMBERS } from "../../../mobx/stores/Layout";
 
 import UpdateIndicator from "../../../components/common/UpdateIndicator";
 import { modalController } from "../../../controllers/modals/ModalController";
@@ -71,11 +67,9 @@ const SearchBar = styled.div`
 `;
 
 export default function HeaderActions({ channel }: ChannelHeaderProps) {
-    const layout = useApplicationState().layout;
     const history = useHistory();
 
     function slideOpen() {
-        if (!isTouchscreenDevice) return;
         const panels = document.querySelector("#app > div > div > div");
         panels?.scrollTo({
             behavior: "smooth",
@@ -84,34 +78,16 @@ export default function HeaderActions({ channel }: ChannelHeaderProps) {
     }
 
     function openSearch() {
-        if (
-            !isTouchscreenDevice &&
-            !layout.getSectionState(SIDEBAR_MEMBERS, true)
-        ) {
-            layout.toggleSectionState(SIDEBAR_MEMBERS, true);
-        }
-
         slideOpen();
         chainedDefer(() => internalEmit("RightSidebar", "open", "search"));
     }
 
     function openPinned() {
-        if (
-            !isTouchscreenDevice &&
-            !layout.getSectionState(SIDEBAR_MEMBERS, true)
-        ) {
-            layout.toggleSectionState(SIDEBAR_MEMBERS, true);
-        }
-
         slideOpen();
         chainedDefer(() => internalEmit("RightSidebar", "open", "pinned"));
     }
 
     function openMembers() {
-        if (!isTouchscreenDevice) {
-            layout.toggleSectionState(SIDEBAR_MEMBERS, true);
-        }
-
         slideOpen();
         chainedDefer(() => internalEmit("RightSidebar", "open", undefined));
     }

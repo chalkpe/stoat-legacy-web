@@ -8,7 +8,7 @@ import {
 } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { Link, useLocation, useParams } from "react-router-dom";
-import styled, { css } from "styled-components/macro";
+import styled from "styled-components/macro";
 
 import { Text } from "preact-i18n";
 import { useContext, useEffect } from "preact/hooks";
@@ -17,7 +17,6 @@ import { Category, IconButton } from "@revoltchat/ui";
 
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
-import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../../mobx/State";
 
@@ -35,13 +34,7 @@ const Navbar = styled.div`
     padding: 0 14px;
     font-weight: 600;
     flex-shrink: 0;
-    height: 48px;
-
-    ${() =>
-        isTouchscreenDevice &&
-        css`
-            height: 56px;
-        `}
+    height: 56px;
 `;
 
 export default observer(() => {
@@ -63,10 +56,8 @@ export default observer(() => {
     useEffect(() => state.layout.setLastHomePath(pathname), [pathname]);
 
     const scrollToPanel = () => {
-        if (isTouchscreenDevice) {
-            const panels = document.querySelector("#app > div > div > div");
-            panels?.scrollTo({ behavior: "smooth", left: panels.clientWidth });
-        }
+        const panels = document.querySelector("#app > div > div > div");
+        panels?.scrollTo({ behavior: "smooth", left: panels.clientWidth });
     };
 
     channels.sort((b, a) =>

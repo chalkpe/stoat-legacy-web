@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Redirect, useParams } from "react-router";
-import styled, { css } from "styled-components/macro";
+import styled from "styled-components/macro";
 
 import { useTriggerEvents } from "preact-context-menu";
 import { useEffect } from "preact/hooks";
@@ -10,7 +10,6 @@ import { Category } from "@revoltchat/ui";
 import ConditionalLink from "../../../lib/ConditionalLink";
 import PaintCounter from "../../../lib/PaintCounter";
 import { internalEmit } from "../../../lib/eventEmitter";
-import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../../mobx/State";
 
@@ -94,15 +93,13 @@ export default observer(() => {
                             true,
                         );
 
-                        if (isTouchscreenDevice) {
-                            const panels = document.querySelector(
-                                "#app > div > div > div",
-                            );
-                            panels?.scrollTo({
-                                behavior: "smooth",
-                                left: panels.clientWidth,
-                            });
-                        }
+                        const panels = document.querySelector(
+                            "#app > div > div > div",
+                        );
+                        panels?.scrollTo({
+                            behavior: "smooth",
+                            left: panels.clientWidth,
+                        });
                     }
                 }}
                 key={entry._id}

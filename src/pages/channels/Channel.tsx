@@ -13,17 +13,14 @@ import { useEffect, useState } from "preact/hooks";
 import ErrorBoundary from "../../lib/ErrorBoundary";
 import { trackChannelOpen, trackChannelClose } from "../../lib/channelTracking";
 import { internalSubscribe } from "../../lib/eventEmitter";
-import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
-import { SIDEBAR_MEMBERS } from "../../mobx/stores/Layout";
 
 import AgeGate from "../../components/common/AgeGate";
 import MessageBox from "../../components/common/messaging/MessageBox";
 import JumpToBottom from "../../components/common/messaging/bars/JumpToBottom";
 import NewMessages from "../../components/common/messaging/bars/NewMessages";
 import TypingIndicator from "../../components/common/messaging/bars/TypingIndicator";
-import RightSidebar from "../../components/navigation/RightSidebar";
 import { PageHeader } from "../../components/ui/Header";
 import { useClient } from "../../controllers/client/ClientController";
 import ChannelHeader from "./ChannelHeader";
@@ -144,8 +141,6 @@ export const Channel = observer(
 );
 
 const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
-    const layout = useApplicationState().layout;
-
     // Store unread location.
     const [lastId, setLastId] = useState<string | undefined>(undefined);
 
@@ -283,10 +278,6 @@ const TextChannel = observer(({ channel }: { channel: ChannelI }) => {
                         <MessageBox channel={channel} />
                     </ChannelContent>
                 </ErrorBoundary>
-                {!isTouchscreenDevice &&
-                    layout.getSectionState(SIDEBAR_MEMBERS, true) && (
-                        <RightSidebar />
-                    )}
             </ChannelMain>
         </AgeGate>
     );

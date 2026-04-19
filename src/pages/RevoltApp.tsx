@@ -5,7 +5,6 @@ import styled, { css } from "styled-components/macro";
 import { useEffect, useState } from "preact/hooks";
 
 import ContextMenus from "../lib/ContextMenus";
-import { isTouchscreenDevice } from "../lib/isTouchscreenDevice";
 
 import { Titlebar } from "../components/native/Titlebar";
 import LeftSidebar from "../components/navigation/LeftSidebar";
@@ -73,11 +72,7 @@ const Routes = styled.div.attrs({ "data-component": "routes" })<{
 
     background: var(--primary-background);
 
-    ${() =>
-        isTouchscreenDevice &&
-        css`
-            overflow: hidden;
-        `}
+    overflow: hidden;
 
     ${(props) =>
         props.borders &&
@@ -92,7 +87,7 @@ export default function App() {
     const inChannel = path.includes("/channel");
     const inServer = path.includes("/server");
     const inSpecial =
-        (path.startsWith("/friends") && isTouchscreenDevice) ||
+        path.startsWith("/friends") ||
         path.startsWith("/invite") ||
         path.includes("/settings");
 
@@ -149,7 +144,7 @@ export default function App() {
                             ? { width: 236, component: <RightSidebar /> }
                             : undefined
                     }
-                    docked={isTouchscreenDevice ? Docked.None : Docked.Left}>
+                    docked={Docked.None}>
                     <Routes borders={inServer}>
                         <Switch>
                             <Route

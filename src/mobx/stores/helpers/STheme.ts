@@ -2,8 +2,6 @@
 import rgba from "color-rgba";
 import { makeAutoObservable, computed, action } from "mobx";
 
-import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
-
 import {
     Theme,
     PRESETS,
@@ -119,10 +117,8 @@ export default class STheme {
             "min-opacity": this.settings.get("appearance:transparency", true)
                 ? 0
                 : 1,
-            "header-height": isTouchscreenDevice ? "56px" : "48px",
-            "effective-bottom-offset": isTouchscreenDevice
-                ? "var(--bottom-navigation-height)"
-                : "0px",
+            "header-height": "56px",
+            "effective-bottom-offset": "var(--bottom-navigation-height)",
         };
     }
 

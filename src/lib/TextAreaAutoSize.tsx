@@ -8,7 +8,6 @@ import { TextArea } from "@revoltchat/ui";
 import type { TextAreaProps } from "@revoltchat/ui/esm/components/design/atoms/inputs/TextArea";
 
 import { internalSubscribe } from "./eventEmitter";
-import { isTouchscreenDevice } from "./isTouchscreenDevice";
 
 type TextAreaAutoSizeProps = Omit<
     JSX.HTMLAttributes<HTMLTextAreaElement>,
@@ -81,43 +80,10 @@ const TextAreaAutoSize = forwardRef<HTMLTextAreaElement, TextAreaAutoSizeProps>(
     }, [ghost, props.value]);
 
     useEffect(() => {
-        if (isTouchscreenDevice) return;
-        autoFocus && ref.current && ref.current.focus();
-    }, [value, autoFocus]);
-
-    const inputSelected = () =>
-        ["TEXTAREA", "INPUT"].includes(document.activeElement?.nodeName ?? "");
-
-    useEffect(() => {
         if (!ref.current) return;
         if (forceFocus) {
             ref.current.focus();
         }
-
-        if (isTouchscreenDevice) return;
-        if (autoFocus && !inputSelected()) {
-            ref.current.focus();
-        }
-
-        // ? if you are wondering what this is
-        // ? it is a quick and dirty hack to fix
-        // ? value not setting correctly
-        // ? I have no clue what's going on
-        // ref.current.value = value;
-        // * commented out of 30-08-21
-        // * hopefully nothing breaks :v
-
-        if (!autoFocus) return;
-        function keyDown(e: KeyboardEvent) {
-            if ((e.ctrlKey && e.key !== "v") || e.altKey || e.metaKey) return;
-            if (e.key.length !== 1) return;
-            if (ref && !inputSelected()) {
-                ref.current!.focus();
-            }
-        }
-
-        document.body.addEventListener("keydown", keyDown);
-        return () => document.body.removeEventListener("keydown", keyDown);
     }, [ref, autoFocus, forceFocus, value]);
 
     useEffect(() => {

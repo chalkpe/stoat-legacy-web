@@ -1,6 +1,4 @@
-import styled, { css } from "styled-components/macro";
-
-import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
+import styled from "styled-components/macro";
 
 export default styled.div`
     height: 100%;

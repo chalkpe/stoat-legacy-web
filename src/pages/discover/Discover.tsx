@@ -7,8 +7,6 @@ import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 
 import { Header, Preloader } from "@revoltchat/ui";
 
-import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
-
 import { useApplicationState } from "../../mobx/State";
 
 import { Overrides } from "../../context/Theme";
@@ -20,39 +18,20 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
 
-    ${() =>
-        isTouchscreenDevice
-            ? css`
-                  top: 0;
-                  left: 0;
-                  width: 100%;
-                  height: 100%;
-                  position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
 
-                  padding-bottom: 50px;
-                  background: var(--background);
-              `
-            : css`
-                  background: var(--background);
-              `}
+    padding-bottom: 50px;
+    background: var(--background);
 `;
 
 const Frame = styled.iframe<{ loaded: boolean }>`
     border: none;
 
-    ${() =>
-        !isTouchscreenDevice &&
-        css`
-            background: var(--secondary-background);
-            border-start-start-radius: 8px;
-            border-end-start-radius: 8px;
-        `}
-
-    ${() =>
-        isTouchscreenDevice &&
-        css`
-            padding-top: 56px;
-        `}
+    padding-top: 56px;
 
     ${(props) =>
         props.loaded
@@ -66,14 +45,6 @@ const Frame = styled.iframe<{ loaded: boolean }>`
 
 const Loader = styled.div`
     flex-grow: 1;
-
-    ${() =>
-        !isTouchscreenDevice &&
-        css`
-            background: var(--secondary-background);
-            border-start-start-radius: 8px;
-            border-end-start-radius: 8px;
-        `}
 `;
 
 const TRUSTED_HOSTS = [
@@ -162,12 +133,10 @@ export default function Discover() {
 
     return (
         <Container>
-            {isTouchscreenDevice && (
-                <Header palette="primary" withTransparency>
-                    <Compass size={27} />
-                    Discover
-                </Header>
-            )}
+            <Header palette="primary" withTransparency>
+                <Compass size={27} />
+                Discover
+            </Header>
             {!loaded && (
                 <Loader>
                     <Preloader type="ring" />

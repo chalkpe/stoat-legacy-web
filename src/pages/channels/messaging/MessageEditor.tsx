@@ -4,7 +4,6 @@ import styled from "styled-components/macro";
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import TextAreaAutoSize from "../../../lib/TextAreaAutoSize";
-import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
 
 import AutoComplete, {
     useAutoComplete,
@@ -103,15 +102,6 @@ export default function MessageEditor({ message, finish }: Props) {
                 }}
                 onKeyDown={(e) => {
                     if (onKeyDown(e)) return;
-
-                    if (
-                        !e.shiftKey &&
-                        e.key === "Enter" &&
-                        !isTouchscreenDevice
-                    ) {
-                        e.preventDefault();
-                        save();
-                    }
                 }}
                 onKeyUp={onKeyUp}
                 onFocus={onFocus}

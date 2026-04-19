@@ -1,15 +1,9 @@
-import {
-    ChevronLeft,
-    ChevronRight,
-    Menu,
-} from "@styled-icons/boxicons-regular";
+import { Menu } from "@styled-icons/boxicons-regular";
 import { observer } from "mobx-react-lite";
 import { useLocation } from "react-router-dom";
-import styled, { css } from "styled-components/macro";
+import styled from "styled-components/macro";
 
 import { Header } from "@revoltchat/ui";
-
-import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import { useApplicationState } from "../../mobx/State";
 import { SIDEBAR_CHANNELS } from "../../mobx/stores/Layout";
@@ -33,13 +27,6 @@ const IconContainer = styled.div`
     > svg {
         margin-right: -5px;
     }
-
-    ${!isTouchscreenDevice &&
-    css`
-        &:hover {
-            color: var(--foreground);
-        }
-    `}
 `;
 
 type PageHeaderProps = Omit<Props, "placement" | "borders"> & {
@@ -65,13 +52,7 @@ export const PageHeader = observer(
                     onClick={() =>
                         layout.toggleSectionState(SIDEBAR_CHANNELS, true)
                     }>
-                    {!isTouchscreenDevice && visible && (
-                        <ChevronLeft size={18} />
-                    )}
                     {icon}
-                    {!isTouchscreenDevice && !visible && (
-                        <ChevronRight size={18} />
-                    )}
                 </IconContainer>
                 {children}
             </Header>
@@ -80,8 +61,6 @@ export const PageHeader = observer(
 );
 
 export function HamburgerAction() {
-    if (!isTouchscreenDevice) return null;
-
     function openSidebar() {
         document
             .querySelector("#app > div > div > div")

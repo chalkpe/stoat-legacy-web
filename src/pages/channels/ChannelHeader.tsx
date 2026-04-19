@@ -4,14 +4,9 @@ import { observer } from "mobx-react-lite";
 import { Channel, User } from "revolt.js";
 import styled from "styled-components/macro";
 
-import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
-
 import { useStatusColour } from "../../components/common/user/UserIcon";
-import UserStatus from "../../components/common/user/UserStatus";
-import Markdown from "../../components/markdown/Markdown";
 import { PageHeader } from "../../components/ui/Header";
 import { ChannelName } from "../../controllers/client/jsx/ChannelName";
-import { modalController } from "../../controllers/modals/ModalController";
 import HeaderActions from "./actions/HeaderActions";
 
 export interface ChannelHeaderProps {
@@ -84,44 +79,20 @@ export default observer(({ channel }: ChannelHeaderProps) => {
                 <span className="name">
                     <ChannelName channel={channel} />
                 </span>
-                {isTouchscreenDevice &&
-                    channel.channel_type === "DirectMessage" && (
-                        <>
-                            <span className="desc">
-                                <div
-                                    className="status"
-                                    style={{
-                                        backgroundColor:
-                                            useStatusColour(recipient),
-                                    }}
-                                />
-                                {/* <UserStatus user={recipient} /> */}
-                            </span>
-                        </>
-                    )}
-                {!isTouchscreenDevice &&
-                    (channel.channel_type === "Group" ||
-                        channel.channel_type === "TextChannel") &&
-                    channel.description && (
-                        <>
-                            <div className="divider" />
-                            <span
-                                className="desc"
-                                onClick={() =>
-                                    modalController.push({
-                                        type: "channel_info",
-                                        channel,
-                                    })
-                                }>
-                                <Markdown
-                                    content={
-                                        channel.description.split("\n")[0] ?? ""
-                                    }
-                                    disallowBigEmoji
-                                />
-                            </span>
-                        </>
-                    )}
+                {channel.channel_type === "DirectMessage" && (
+                    <>
+                        <span className="desc">
+                            <div
+                                className="status"
+                                style={{
+                                    backgroundColor:
+                                        useStatusColour(recipient),
+                                }}
+                            />
+                            {/* <UserStatus user={recipient} /> */}
+                        </span>
+                    </>
+                )}
             </Info>
             <HeaderActions channel={channel} />
         </PageHeader>

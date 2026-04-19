@@ -19,8 +19,6 @@ import { useMemo } from "preact/hooks";
 
 import { CategoryButton } from "@revoltchat/ui";
 
-import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
-
 import { useApplicationState } from "../../mobx/State";
 
 import wideSVG from "/assets/wide.svg";
@@ -50,8 +48,8 @@ export default observer(() => {
     const toggleSeasonalTheme = () =>
         state.settings.set("appearance:seasonal", !seasonalTheme);
 
-    const isDecember = !isTouchscreenDevice && new Date().getMonth() === 11;
-    const isOctober = !isTouchscreenDevice && new Date().getMonth() === 9;
+    const isDecember = false;
+    const isOctober = false;
     const snowflakes = useMemo(() => {
         const flakes: string[] = [];
 

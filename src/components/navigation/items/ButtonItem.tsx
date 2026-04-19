@@ -1,4 +1,3 @@
-import { X } from "@styled-icons/boxicons-regular";
 import { Crown } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { User, Channel } from "revolt.js";
@@ -8,12 +7,6 @@ import classNames from "classnames";
 import { useTriggerEvents } from "preact-context-menu";
 import { Localizer, Text } from "preact-i18n";
 
-import { IconButton } from "@revoltchat/ui";
-
-import { isTouchscreenDevice } from "../../../lib/isTouchscreenDevice";
-import { stopPropagation } from "../../../lib/stopPropagation";
-
-import { modalController } from "../../../controllers/modals/ModalController";
 import ChannelIcon from "../../common/ChannelIcon";
 import Tooltip from "../../common/Tooltip";
 import UserIcon from "../../common/user/UserIcon";
@@ -104,19 +97,6 @@ export const UserButton = observer((props: UserProps) => {
                         {alertCount}
                     </div>
                 )}
-                {!isTouchscreenDevice && channel && (
-                    <IconButton
-                        className={styles.icon}
-                        onClick={(e) =>
-                            stopPropagation(e) &&
-                            modalController.push({
-                                type: "close_dm",
-                                target: channel,
-                            })
-                        }>
-                        <X size={24} />
-                    </IconButton>
-                )}
             </div>
         </div>
     );
@@ -190,18 +170,6 @@ export const ChannelButton = observer((props: ChannelProps) => {
                     <div className={styles.alert} data-style={alert}>
                         {alertCount}
                     </div>
-                )}
-                {!isTouchscreenDevice && channel.channel_type === "Group" && (
-                    <IconButton
-                        className={styles.icon}
-                        onClick={() =>
-                            modalController.push({
-                                type: "leave_group",
-                                target: channel,
-                            })
-                        }>
-                        <X size={24} />
-                    </IconButton>
                 )}
             </div>
         </div>

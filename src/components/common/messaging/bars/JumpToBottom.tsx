@@ -6,7 +6,6 @@ import styled, { css } from "styled-components/macro";
 import { Text } from "preact-i18n";
 
 import { internalEmit } from "../../../../lib/eventEmitter";
-import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 import { getRenderer } from "../../../../lib/renderer/Singleton";
 
 export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
@@ -42,15 +41,9 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
     ${(props) =>
         props.position === "bottom" &&
         css`
-            top: -28px;
+            top: -34px;
             animation: bottomBounce 340ms cubic-bezier(0.2, 0.9, 0.5, 1.16)
                 forwards;
-
-            ${() =>
-                isTouchscreenDevice &&
-                css`
-                    top: -34px;
-                `}
         `}
 
     > div {
@@ -102,11 +95,7 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
                           0;
                   `}
 
-                  ${() =>
-            isTouchscreenDevice &&
-            css`
-                top: 0;
-            `}
+        top: 0;
 
         > div {
             display: flex;
@@ -126,12 +115,8 @@ export const Bar = styled.div<{ position: "top" | "bottom"; accent?: boolean }>`
             transform: translateY(1px);
         }
 
-        ${() =>
-            isTouchscreenDevice &&
-            css`
-                height: 34px;
-                padding: 0 12px;
-            `}
+        height: 34px;
+        padding: 0 12px;
     }
 
     @media only screen and (max-width: 800px) {

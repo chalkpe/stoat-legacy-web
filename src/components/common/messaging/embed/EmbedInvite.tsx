@@ -2,13 +2,11 @@ import { Group } from "@styled-icons/boxicons-solid";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
 import { Message, API } from "revolt.js";
-import styled, { css } from "styled-components/macro";
+import styled from "styled-components/macro";
 
 import { useContext, useEffect, useState } from "preact/hooks";
 
 import { Button, Category, Preloader } from "@revoltchat/ui";
-
-import { isTouchscreenDevice } from "../../../../lib/isTouchscreenDevice";
 
 import { I18nError } from "../../../../context/Locale";
 
@@ -20,36 +18,26 @@ import {
 import { takeError } from "../../../../controllers/client/jsx/error";
 
 const EmbedInviteBase = styled.div`
-    width: 400px;
-    height: 80px;
+    width: 100%;
+    height: 130px;
     background-color: var(--secondary-background);
     border-radius: var(--border-radius);
     display: flex;
     align-items: center;
     padding: 0 12px;
     margin-top: 2px;
-    ${() =>
-        isTouchscreenDevice &&
-        css`
-            flex-wrap: wrap;
-            height: 130px;
-            padding-top: 8px;
-            padding-bottom: 10px;
-            width: 100%;
-            > button {
-                width: 100%;
-            }
-        `}
+    flex-wrap: wrap;
+    padding-top: 8px;
+    padding-bottom: 10px;
+    > button {
+        width: 100%;
+    }
 `;
 
 const EmbedInviteDetails = styled.div`
     flex-grow: 1;
     padding-inline-start: 12px;
-    ${() =>
-        isTouchscreenDevice &&
-        css`
-            width: calc(100% - 55px);
-        `}
+    width: calc(100% - 55px);
 `;
 
 const EmbedInviteName = styled.div`

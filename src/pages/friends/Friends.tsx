@@ -10,7 +10,6 @@ import { Text } from "preact-i18n";
 import { IconButton } from "@revoltchat/ui";
 
 import { TextReact } from "../../lib/i18n";
-import { isTouchscreenDevice } from "../../lib/isTouchscreenDevice";
 
 import CollapsibleSection from "../../components/common/CollapsibleSection";
 import Tooltip from "../../components/common/Tooltip";
@@ -112,7 +111,7 @@ export default observer(() => {
                 <div
                     className={classNames(styles.list, "with-padding")}
                     data-empty={isEmpty}
-                    data-mobile={isTouchscreenDevice}>
+                    data-mobile={true}>
                     {isEmpty && (
                         <>
                             <img src="https://img.insrt.uk/xexu7/XOPoBUTI47.png/raw" />

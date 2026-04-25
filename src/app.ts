@@ -19,7 +19,7 @@ async function markReadOpenChannel(url: string) {
     while (attempts < 20) {
         const client = clientController.getReadyClient();
         if (client) {
-            client.unreads!.markRead(channelId, undefined, true, true);
+            client.unreads?.markRead(channelId, undefined, true, true);
             return;
         }
         await new Promise(resolve => setTimeout(resolve, 500));
